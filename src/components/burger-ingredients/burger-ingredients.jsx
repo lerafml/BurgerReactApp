@@ -23,18 +23,20 @@ export const BurgerIngredients = ({ ingredients }) => {
 					</Tab>
 				</ul>
 			</nav>
-			<BurgerSection
-				name='Булки'
-				ingredients={ingredients.filter((i) => i.type === 'bun')}
-			/>
-			<BurgerSection
-				name='Начинки'
-				ingredients={ingredients.filter((i) => i.type === 'main')}
-			/>
-			<BurgerSection
-				name='Соусы'
-				ingredients={ingredients.filter((i) => i.type === 'sauce')}
-			/>
+			<div className='custom-scroll'>
+				<BurgerSection
+					name='Булки'
+					ingredients={ingredients.filter((i) => i.type === 'bun')}
+				/>
+				<BurgerSection
+					name='Начинки'
+					ingredients={ingredients.filter((i) => i.type === 'main')}
+				/>
+				<BurgerSection
+					name='Соусы'
+					ingredients={ingredients.filter((i) => i.type === 'sauce')}
+				/>
+			</div>
 		</section>
 	);
 };

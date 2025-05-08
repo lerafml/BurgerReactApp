@@ -1,16 +1,13 @@
 import React from 'react';
 import styles from './burger-section.module.css';
+import Ingredient from '@components/burger-ingredients/ingredient/ingredient';
 
 const BurgerSection = ({ name, ingredients }) => {
 	return (
 		<div className={styles.burger_section}>
-			<h1>{name}</h1>
+			<h1 className={styles.title}>{name}</h1>
 			{ingredients.map((item) => {
-				return (
-					<section key={item._id}>
-						<img src={item.image} alt={item.name} />
-					</section>
-				);
+				return <Ingredient key={item._id} item={item} />;
 			})}
 		</div>
 	);
