@@ -1,6 +1,8 @@
 import React from 'react';
 import styles from './burger-section.module.css';
+import { ingredientPropType } from '@utils/prop-types.js';
 import Ingredient from '@components/burger-ingredients/ingredient/ingredient';
+import PropTypes from 'prop-types';
 
 const BurgerSection = ({ name, ingredients }) => {
 	return (
@@ -11,6 +13,11 @@ const BurgerSection = ({ name, ingredients }) => {
 			})}
 		</div>
 	);
+};
+
+BurgerSection.propTypes = {
+	name: PropTypes.string.isRequired,
+	ingredients: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired,
 };
 
 export default BurgerSection;

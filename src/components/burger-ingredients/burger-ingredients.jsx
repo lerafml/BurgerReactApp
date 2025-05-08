@@ -23,7 +23,7 @@ export const BurgerIngredients = ({ ingredients }) => {
 					</Tab>
 				</ul>
 			</nav>
-			<div className='custom-scroll'>
+			<div style={{ overflow: 'scroll' }} className='custom-scroll mb-10'>
 				<BurgerSection
 					name='Булки'
 					ingredients={ingredients.filter((i) => i.type === 'bun')}
