@@ -3,9 +3,10 @@ import styles from './burger-ingredients.module.css';
 import * as PropTypes from 'prop-types';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ingredientPropType } from '@utils/prop-types.js';
+import BurgerSection from '@components/burger-ingredients/burger-section/burger-section';
 
 export const BurgerIngredients = ({ ingredients }) => {
-	console.log(ingredients);
+	console.log(ingredients.filter((i) => i.type === 'bun'));
 
 	return (
 		<section className={styles.burger_ingredients}>
@@ -22,6 +23,18 @@ export const BurgerIngredients = ({ ingredients }) => {
 					</Tab>
 				</ul>
 			</nav>
+			<BurgerSection
+				name='Булки'
+				ingredients={ingredients.filter((i) => i.type === 'bun')}
+			/>
+			<BurgerSection
+				name='Начинки'
+				ingredients={ingredients.filter((i) => i.type === 'main')}
+			/>
+			<BurgerSection
+				name='Соусы'
+				ingredients={ingredients.filter((i) => i.type === 'sauce')}
+			/>
 		</section>
 	);
 };
