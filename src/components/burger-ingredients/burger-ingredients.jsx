@@ -6,8 +6,6 @@ import { ingredientPropType } from '@utils/prop-types.js';
 import BurgerSection from '@components/burger-ingredients/burger-section/burger-section';
 
 export const BurgerIngredients = ({ ingredients }) => {
-	console.log(ingredients.filter((i) => i.type === 'bun'));
-
 	return (
 		<section className={styles.burger_ingredients}>
 			<nav>
@@ -23,7 +21,7 @@ export const BurgerIngredients = ({ ingredients }) => {
 					</Tab>
 				</ul>
 			</nav>
-			<div style={{ overflow: 'scroll' }} className='custom-scroll mb-10'>
+			<div style={{ overflowY: 'scroll' }} className='custom-scroll'>
 				<BurgerSection
 					name='Булки'
 					ingredients={ingredients.filter((i) => i.type === 'bun')}

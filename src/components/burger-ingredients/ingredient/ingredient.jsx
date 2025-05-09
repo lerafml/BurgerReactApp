@@ -10,12 +10,7 @@ import IngredientImage from '@components/burger-ingredients/ingredient-image/ing
 const Ingredient = ({ item }) => {
 	return (
 		<section className={styles.ingredient}>
-			<Counter
-				count={1}
-				size='default'
-				extraClass='m-1'
-				className={styles.count}
-			/>
+			<Counter count={1} size='default' extraClass='m-1' />
 			<IngredientImage image={item.image} name={item.name} />
 			<p
 				className='text text_type_digits-default mt-1 mb-1'
