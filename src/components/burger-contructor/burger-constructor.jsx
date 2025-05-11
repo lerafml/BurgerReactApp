@@ -4,6 +4,7 @@ import * as PropTypes from 'prop-types';
 import { ingredientPropType } from '@utils/prop-types.js';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientsList from '@components/burger-contructor/ingredients-list/ingredients-list';
+import ConstructorTotal from '@components/burger-contructor/constructor-total/constructor-total';
 
 export const BurgerConstructor = ({ ingredients }) => {
 	return (
@@ -29,6 +30,7 @@ export const BurgerConstructor = ({ ingredients }) => {
 				extraClass='ml-8'
 				key={-2}
 			/>
+			<ConstructorTotal total={1000} />
 		</section>
 	);
 };

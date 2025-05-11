@@ -1,0 +1,11 @@
+.p {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	margin-right: 32px;
+}
+
+.icon {
+	width: 32px;
+	height: 32px;
+}
