@@ -7,7 +7,7 @@ const IngredientImage = ({ image, name }) => {
 
 IngredientImage.propTypes = {
 	image: PropTypes.string.isRequired,
-	name: PropTypes.string,
+	name: PropTypes.string.isRequired,
 };
 
 export default IngredientImage;
