@@ -5,7 +5,7 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ingredientPropType } from '@utils/prop-types.js';
 import BurgerSection from '@components/burger-ingredients/burger-section/burger-section';
 
-export const BurgerIngredients = ({ ingredients }) => {
+export const BurgerIngredients = ({ ingredients, onSelect }) => {
 	return (
 		<section className={styles.burger_ingredients}>
 			<nav>
@@ -25,14 +25,17 @@ export const BurgerIngredients = ({ ingredients }) => {
 				<BurgerSection
 					name='Булки'
 					ingredients={ingredients.filter((i) => i.type === 'bun')}
+					onSelect={onSelect}
 				/>
 				<BurgerSection
 					name='Начинки'
 					ingredients={ingredients.filter((i) => i.type === 'main')}
+					onSelect={onSelect}
 				/>
 				<BurgerSection
 					name='Соусы'
 					ingredients={ingredients.filter((i) => i.type === 'sauce')}
+					onSelect={onSelect}
 				/>
 			</div>
 		</section>
@@ -41,4 +44,5 @@ export const BurgerIngredients = ({ ingredients }) => {
 
 BurgerIngredients.propTypes = {
 	ingredients: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired,
+	onSelect: PropTypes.func.isRequired,
 };

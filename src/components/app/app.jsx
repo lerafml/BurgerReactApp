@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import styles from './app.module.css';
-/*import { ingredients } from '@utils/ingredients.js';*/
 import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredients.jsx';
 import { BurgerConstructor } from '@components/burger-contructor/burger-constructor.jsx';
 import { AppHeader } from '@components/app-header/app-header.jsx';
 import { Preloader } from '@components/preloader/preloader.jsx';
+import ModalWindow from '@components/modal-window/modal-window.jsx';
+import IngredientDetails from '../burger-ingredients/ingredient-details/ingredient-details';
 
 export const App = () => {
 	const URL = 'https://norma.nomoreparties.space/api/ingredients';
+	const [currentItem, setCurrentItem] = useState(null);
 	const [state, setState] = useState({
 		isLoaded: false,
 		hasError: false,
@@ -41,8 +43,18 @@ export const App = () => {
 						Соберите бургер
 					</h1>
 					<main className={`${styles.main} pl-5 pr-5 mb-5`}>
-						<BurgerIngredients ingredients={state.ingredients} />
+						<BurgerIngredients
+							ingredients={state.ingredients}
+							onSelect={setCurrentItem}
+						/>
 						<BurgerConstructor ingredients={state.ingredients} />
+						{currentItem !== null && (
+							<ModalWindow
+								name='Детали ингредиента'
+								onClose={() => setCurrentItem(null)}>
+								<IngredientDetails item={currentItem} />
+							</ModalWindow>
+						)}
 					</main>
 				</>
 			)}
