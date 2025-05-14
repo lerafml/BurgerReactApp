@@ -24,15 +24,11 @@ const Ingredient = ({ item, onClick }) => {
 			}}>
 			<Counter count={1} size='default' extraClass='m-1' />
 			<IngredientImage image={item.image} name={item.name} />
-			<p
-				className='text text_type_digits-default mt-1 mb-1'
-				style={{ display: 'flex' }}>
+			<p className={`${styles.price} text text_type_digits-default mt-1 mb-1`}>
 				<span className='pr-1'>{item.price}</span>
 				<CurrencyIcon type='primary' />
 			</p>
-			<p
-				className='text text_type_main-default'
-				style={{ textAlign: 'center' }}>
+			<p className={`${styles.name} text text_type_main-default`}>
 				{item.name}
 			</p>
 		</section>

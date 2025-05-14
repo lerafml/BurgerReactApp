@@ -8,27 +8,27 @@ import ConstructorTotal from '@components/burger-contructor/constructor-total/co
 
 export const BurgerConstructor = ({ ingredients, onSubmit }) => {
 	return (
-		<section
-			className={styles.burger_constructor}
-			style={{ display: 'flex', flexDirection: 'column' }}>
+		<section className={styles.burger_constructor}>
 			<ConstructorElement
 				isLocked={true}
-				text={ingredients[0].name}
+				text={`${ingredients[0].name} (верх)`}
 				price={ingredients[0].price}
 				thumbnail={ingredients[0].image}
 				key={-1}
 				extraClass='ml-8'
+				type='top'
 			/>
 			<IngredientsList
 				ingredients={ingredients.filter((i) => i.type !== 'bun')}
 			/>
 			<ConstructorElement
 				isLocked={true}
-				text={ingredients[0].name}
+				text={`${ingredients[0].name} (низ)`}
 				price={ingredients[0].price}
 				thumbnail={ingredients[0].image}
 				extraClass='ml-8'
 				key={-2}
+				type='bottom'
 			/>
 			<ConstructorTotal total={1000} onSubmit={onSubmit} />
 		</section>

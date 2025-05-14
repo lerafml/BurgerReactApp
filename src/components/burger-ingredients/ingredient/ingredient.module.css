@@ -6,3 +6,11 @@
 	align-items: center;
 	width: 50%;
 }
+
+.price {
+	display: flex;
+}
+
+.name {
+	text-align: center;
+}

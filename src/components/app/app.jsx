@@ -24,7 +24,12 @@ export const App = () => {
 
 	const getIngredients = () => {
 		fetch(URL)
-			.then((res) => res.json())
+			.then((res) => {
+				if (res.ok) {
+					return res.json();
+				}
+				return Promise.reject(`Ошибка ${res.status}`);
+			})
 			.then((data) => {
 				setState({ ...state, ingredients: data.data, isLoaded: true });
 			})

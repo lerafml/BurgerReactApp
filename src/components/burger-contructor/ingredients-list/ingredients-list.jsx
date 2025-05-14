@@ -9,9 +9,7 @@ import {
 
 const IngredientsList = ({ ingredients }) => {
 	return (
-		<ul
-			className={styles.list}
-			style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+		<ul className={styles.list}>
 			{ingredients.map((item, index) => {
 				return (
 					<li className={styles.item} key={index}>

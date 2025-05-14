@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styles from './order-details.module.css';
 import done from '../../../images/done.png';
 
 const OrderDetails = ({ id }) => {
@@ -7,12 +8,7 @@ const OrderDetails = ({ id }) => {
 		<>
 			<p className='text text_type_digits-large mb-8'>{id}</p>
 			<p className='text text_type_main-default mb-15'>идентификатор заказа</p>
-			<img
-				src={done}
-				alt='Check'
-				style={{ width: 120, alignSelf: 'center' }}
-				className='mb-15'
-			/>
+			<img src={done} alt='Check' className={`${styles.image} mb-15`} />
 			<p className='text text_type_main-small mb-2'>
 				Ваш заказ начали готовить
 			</p>

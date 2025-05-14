@@ -1,4 +1,7 @@
 .list {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
 	padding: 0;
 	overflow-y: scroll;
 	list-style-type: none;

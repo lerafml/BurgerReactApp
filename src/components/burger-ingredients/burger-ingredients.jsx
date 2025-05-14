@@ -21,7 +21,7 @@ export const BurgerIngredients = ({ ingredients, onSelect }) => {
 					</Tab>
 				</ul>
 			</nav>
-			<div style={{ overflowY: 'scroll' }} className='custom-scroll'>
+			<div className={`${styles.sections} custom-scroll`}>
 				<BurgerSection
 					name='Булки'
 					ingredients={ingredients.filter((i) => i.type === 'bun')}

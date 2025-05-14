@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import styles from './modal.module.css';
@@ -8,6 +8,19 @@ import ModalOverlay from '@components/modal-overlay/modal-overlay.jsx';
 const Modal = ({ name, children, onClose }) => {
 	const modalRoot = document.getElementById('modal');
 
+	useEffect(() => {
+		function closeByEscape(e) {
+			if (e.key === 'Escape') {
+				onClose();
+			}
+		}
+
+		document.addEventListener('keydown', closeByEscape);
+		return () => {
+			document.removeEventListener('keydown', closeByEscape);
+		};
+	}, []);
+
 	return ReactDOM.createPortal(
 		<ModalOverlay
 			onClick={(e) => {
@@ -15,15 +28,7 @@ const Modal = ({ name, children, onClose }) => {
 					onClose();
 				}
 			}}>
-			<div
-				className={styles.modal}
-				onKeyDown={(e) => {
-					if (e.key === 'Escape') {
-						onClose();
-					}
-				}}
-				role='button'
-				tabIndex={'0'}>
+			<div className={styles.modal} role='button' tabIndex={'0'}>
 				<section className={styles.header}>
 					<h1 className='text text_type_main-large'>{name}</h1>
 					<span className={styles.icon}>
