@@ -6,7 +6,7 @@ import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-comp
 import IngredientsList from '@components/burger-contructor/ingredients-list/ingredients-list';
 import ConstructorTotal from '@components/burger-contructor/constructor-total/constructor-total';
 
-export const BurgerConstructor = ({ ingredients }) => {
+export const BurgerConstructor = ({ ingredients, onSubmit }) => {
 	return (
 		<section
 			className={styles.burger_constructor}
@@ -30,11 +30,12 @@ export const BurgerConstructor = ({ ingredients }) => {
 				extraClass='ml-8'
 				key={-2}
 			/>
-			<ConstructorTotal total={1000} />
+			<ConstructorTotal total={1000} onSubmit={onSubmit} />
 		</section>
 	);
 };
 
 BurgerConstructor.propTypes = {
 	ingredients: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired,
+	onSubmit: PropTypes.func.isRequired,
 };

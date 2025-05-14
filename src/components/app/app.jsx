@@ -4,12 +4,14 @@ import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredi
 import { BurgerConstructor } from '@components/burger-contructor/burger-constructor.jsx';
 import { AppHeader } from '@components/app-header/app-header.jsx';
 import { Preloader } from '@components/preloader/preloader.jsx';
-import ModalWindow from '@components/modal-window/modal-window.jsx';
+import Modal from '@components/modal/modal.jsx';
 import IngredientDetails from '../burger-ingredients/ingredient-details/ingredient-details';
+import OrderDetails from '../burger-contructor/order-details/order-details';
 
 export const App = () => {
 	const URL = 'https://norma.nomoreparties.space/api/ingredients';
 	const [currentItem, setCurrentItem] = useState(null);
+	const [orderSubmitted, setOrderSubmitted] = useState(false);
 	const [state, setState] = useState({
 		isLoaded: false,
 		hasError: false,
@@ -47,13 +49,21 @@ export const App = () => {
 							ingredients={state.ingredients}
 							onSelect={setCurrentItem}
 						/>
-						<BurgerConstructor ingredients={state.ingredients} />
+						<BurgerConstructor
+							ingredients={state.ingredients}
+							onSubmit={setOrderSubmitted}
+						/>
 						{currentItem !== null && (
-							<ModalWindow
+							<Modal
 								name='Детали ингредиента'
 								onClose={() => setCurrentItem(null)}>
 								<IngredientDetails item={currentItem} />
-							</ModalWindow>
+							</Modal>
+						)}
+						{orderSubmitted && (
+							<Modal onClose={() => setOrderSubmitted(false)}>
+								<OrderDetails id='034536' />
+							</Modal>
 						)}
 					</main>
 				</>
