@@ -13,3 +13,7 @@
 	text-align: center;
 	list-style-type: none;
 }
+
+.sections {
+	overflow-y: scroll;
+}

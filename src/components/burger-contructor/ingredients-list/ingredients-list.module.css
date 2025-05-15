@@ -1,0 +1,20 @@
+.list {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	padding: 0;
+	overflow-y: scroll;
+	list-style-type: none;
+}
+
+.item {
+	position: relative;
+	display: flex;
+	align-items: center;
+	padding-left: 32px;
+}
+
+.dragicon {
+	position: absolute;
+	left: -4px;
+}
