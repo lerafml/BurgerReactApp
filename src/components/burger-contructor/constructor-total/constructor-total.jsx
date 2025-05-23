@@ -5,8 +5,12 @@ import {
 	Button,
 	CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
+import { submitOrder } from '../../../services/constructor/reducer';
+import { useDispatch } from 'react-redux';
 
-const ConstructorTotal = ({ total, onSubmit }) => {
+const ConstructorTotal = ({ total }) => {
+	const dispatch = useDispatch();
+
 	return (
 		<p className={styles.p}>
 			<span className='text text_type_digits-medium mr-1'>{total}</span>
@@ -16,7 +20,7 @@ const ConstructorTotal = ({ total, onSubmit }) => {
 				type='primary'
 				size='large'
 				extraClass='ml-10'
-				onClick={() => onSubmit(true)}>
+				onClick={() => dispatch(submitOrder())}>
 				Оформить заказ
 			</Button>
 		</p>
@@ -25,7 +29,6 @@ const ConstructorTotal = ({ total, onSubmit }) => {
 
 ConstructorTotal.propTypes = {
 	total: PropTypes.number.isRequired,
-	onSubmit: PropTypes.func.isRequired,
 };
 
 export default ConstructorTotal;

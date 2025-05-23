@@ -2,10 +2,13 @@ import React from 'react';
 import styles from './burger-ingredients.module.css';
 import * as PropTypes from 'prop-types';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import { ingredientPropType } from '@utils/prop-types.js';
 import BurgerSection from '@components/burger-ingredients/burger-section/burger-section';
+import { useSelector } from 'react-redux';
+import { getIngredientsByType } from '../../services/ingredients/reducer';
 
-export const BurgerIngredients = ({ ingredients, onSelect }) => {
+export const BurgerIngredients = ({ onSelect }) => {
+	const ingredients = useSelector(getIngredientsByType);
+
 	return (
 		<section className={styles.burger_ingredients}>
 			<nav>
@@ -24,17 +27,17 @@ export const BurgerIngredients = ({ ingredients, onSelect }) => {
 			<div className={`${styles.sections} custom-scroll`}>
 				<BurgerSection
 					name='Булки'
-					ingredients={ingredients.filter((i) => i.type === 'bun')}
+					ingredients={ingredients.get('bun')}
 					onSelect={onSelect}
 				/>
 				<BurgerSection
 					name='Начинки'
-					ingredients={ingredients.filter((i) => i.type === 'main')}
+					ingredients={ingredients.get('main')}
 					onSelect={onSelect}
 				/>
 				<BurgerSection
 					name='Соусы'
-					ingredients={ingredients.filter((i) => i.type === 'sauce')}
+					ingredients={ingredients.get('sauce')}
 					onSelect={onSelect}
 				/>
 			</div>
@@ -43,6 +46,5 @@ export const BurgerIngredients = ({ ingredients, onSelect }) => {
 };
 
 BurgerIngredients.propTypes = {
-	ingredients: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired,
 	onSelect: PropTypes.func.isRequired,
 };
