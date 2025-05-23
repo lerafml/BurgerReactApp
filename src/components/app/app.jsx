@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import styles from './app.module.css';
 import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredients.jsx';
 import { BurgerConstructor } from '@components/burger-contructor/burger-constructor.jsx';
@@ -11,8 +11,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loadIngredients } from '../../services/ingredients/actions';
 import {
 	getAllIngredients,
+	getCurrentItem,
 	getIngredientsError,
 	getIngredientsLoading,
+	revokeCurrentItem,
 } from '../../services/ingredients/reducer';
 import {
 	exitOrder,
@@ -20,7 +22,7 @@ import {
 } from '../../services/constructor/reducer';
 
 export const App = () => {
-	const [currentItem, setCurrentItem] = useState(null);
+	const currentItem = useSelector(getCurrentItem);
 	const ingredients = useSelector(getAllIngredients);
 	const loading = useSelector(getIngredientsLoading);
 	const error = useSelector(getIngredientsError);
@@ -43,12 +45,12 @@ export const App = () => {
 						Соберите бургер
 					</h1>
 					<main className={`${styles.main} pl-5 pr-5 mb-5`}>
-						<BurgerIngredients onSelect={setCurrentItem} />
+						<BurgerIngredients />
 						<BurgerConstructor ingredients={ingredients} />
 						{currentItem !== null && (
 							<Modal
 								name='Детали ингредиента'
-								onClose={() => setCurrentItem(null)}>
+								onClose={() => dispatch(revokeCurrentItem())}>
 								<IngredientDetails item={currentItem} />
 							</Modal>
 						)}

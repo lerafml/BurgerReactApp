@@ -5,11 +5,19 @@ const initialState = {
 	ingredients: [],
 	loading: false,
 	error: null,
+	currentItem: null,
 };
 export const ingredientsSlice = createSlice({
 	name: 'ingredients',
 	initialState,
-	reducers: {},
+	reducers: {
+		setCurrentItem: (state, action) => {
+			state.currentItem = action.payload;
+		},
+		revokeCurrentItem: (state) => {
+			state.currentItem = null;
+		},
+	},
 	selectors: {
 		getIngredientsLoading: (state) => state.loading,
 		getIngredientsError: (state) => state.error,
@@ -18,6 +26,7 @@ export const ingredientsSlice = createSlice({
 			(state) => ingredientsSlice.getSelectors().getAllIngredients(state),
 			(ingredients) => Map.groupBy(ingredients, (ingr) => ingr.type)
 		),
+		getCurrentItem: (state) => state.currentItem,
 	},
 	extraReducers: (builder) => {
 		builder
@@ -42,4 +51,7 @@ export const {
 	getIngredientsError,
 	getAllIngredients,
 	getIngredientsByType,
+	getCurrentItem,
 } = ingredientsSlice.selectors;
+
+export const { setCurrentItem, revokeCurrentItem } = ingredientsSlice.actions;

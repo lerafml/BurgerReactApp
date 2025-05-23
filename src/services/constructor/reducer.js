@@ -1,6 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
+	bun: null,
+	ingredients: [],
 	orderSubmitted: false,
 };
 export const constructorSlice = createSlice({
