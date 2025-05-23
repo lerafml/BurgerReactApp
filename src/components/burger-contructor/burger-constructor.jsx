@@ -72,7 +72,7 @@ export const BurgerConstructor = () => {
 					Выберите булки
 				</div>
 			)}
-			<ConstructorTotal total={0} />
+			<ConstructorTotal />
 		</section>
 	);
 };

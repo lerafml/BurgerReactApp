@@ -1,15 +1,18 @@
 import React from 'react';
 import styles from './constructor-total.module.css';
-import * as PropTypes from 'prop-types';
 import {
 	Button,
 	CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { submitOrder } from '../../../services/constructor/reducer';
-import { useDispatch } from 'react-redux';
+import {
+	getTotalPrice,
+	submitOrder,
+} from '../../../services/constructor/reducer';
+import { useDispatch, useSelector } from 'react-redux';
 
-const ConstructorTotal = ({ total }) => {
+const ConstructorTotal = () => {
 	const dispatch = useDispatch();
+	const total = useSelector(getTotalPrice);
 
 	return (
 		<p className={styles.p}>
@@ -25,10 +28,6 @@ const ConstructorTotal = ({ total }) => {
 			</Button>
 		</p>
 	);
-};
-
-ConstructorTotal.propTypes = {
-	total: PropTypes.number.isRequired,
 };
 
 export default ConstructorTotal;

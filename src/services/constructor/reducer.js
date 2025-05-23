@@ -1,4 +1,4 @@
-import { createSlice, nanoid } from '@reduxjs/toolkit';
+import { createSelector, createSlice, nanoid } from '@reduxjs/toolkit';
 import { makeOrder } from '../constructor/actions';
 
 const initialState = {
@@ -38,6 +38,18 @@ export const constructorSlice = createSlice({
 		getOrderSubmitted: (state) => state.orderSubmitted,
 		getBun: (state) => state.bun,
 		getConstructorIngredients: (state) => state.ingredients,
+		getTotalPrice: createSelector(
+			[
+				(state) => constructorSlice.getSelectors().getBun(state),
+				(state) =>
+					constructorSlice.getSelectors().getConstructorIngredients(state),
+			],
+			(bun, ingredients) =>
+				(bun?.price ?? 0) * 2 +
+				(ingredients
+					?.map((i) => i.item.price)
+					.reduce((sum, val) => sum + val, 0) ?? 0)
+		),
 	},
 	extraReducers: (builder) => {
 		builder
@@ -59,5 +71,9 @@ export const constructorSlice = createSlice({
 
 export const { addIngredient, submitOrder, exitOrder } =
 	constructorSlice.actions;
-export const { getOrderSubmitted, getBun, getConstructorIngredients } =
-	constructorSlice.selectors;
+export const {
+	getOrderSubmitted,
+	getBun,
+	getConstructorIngredients,
+	getTotalPrice,
+} = constructorSlice.selectors;
