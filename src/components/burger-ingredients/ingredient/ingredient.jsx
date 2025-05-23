@@ -7,10 +7,17 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientImage from '@components/burger-ingredients/ingredient-image/ingredient-image';
 import PropTypes from 'prop-types';
+import { useDrag } from 'react-dnd';
 
 const Ingredient = ({ item, onClick }) => {
+	const [, ref] = useDrag({
+		type: 'ingredient',
+		item: { item },
+	});
+
 	return (
 		<section
+			ref={ref}
 			className={styles.ingredient}
 			role='button'
 			tabIndex='0'

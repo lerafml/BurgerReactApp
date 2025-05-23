@@ -1,7 +1,7 @@
 import React from 'react';
 import * as PropTypes from 'prop-types';
 import styles from './ingredients-list.module.css';
-import { ingredientPropType } from '@utils/prop-types.js';
+import { constructorIngredientPropType } from '@utils/prop-types.js';
 import {
 	DragIcon,
 	ConstructorElement,
@@ -10,15 +10,15 @@ import {
 const IngredientsList = ({ ingredients }) => {
 	return (
 		<ul className={styles.list}>
-			{ingredients.map((item, index) => {
+			{ingredients.map((item) => {
 				return (
-					<li className={styles.item} key={index}>
+					<li className={styles.item} key={item.key}>
 						<DragIcon type='primary' className={styles.dragicon} />
 						<ConstructorElement
 							isLocked={false}
-							text={item.name}
-							price={item.price}
-							thumbnail={item.image}
+							text={item.item.name}
+							price={item.item.price}
+							thumbnail={item.item.image}
 						/>
 					</li>
 				);
@@ -28,7 +28,8 @@ const IngredientsList = ({ ingredients }) => {
 };
 
 IngredientsList.propTypes = {
-	ingredients: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired,
+	ingredients: PropTypes.arrayOf(constructorIngredientPropType.isRequired)
+		.isRequired,
 };
 
 export default IngredientsList;

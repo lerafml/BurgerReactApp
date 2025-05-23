@@ -18,8 +18,11 @@ import {
 } from '../../services/ingredients/reducer';
 import {
 	exitOrder,
+	getConstructorIngredients,
 	getOrderSubmitted,
 } from '../../services/constructor/reducer';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 export const App = () => {
 	const currentItem = useSelector(getCurrentItem);
@@ -27,6 +30,7 @@ export const App = () => {
 	const loading = useSelector(getIngredientsLoading);
 	const error = useSelector(getIngredientsError);
 	const orderSubmitted = useSelector(getOrderSubmitted);
+	const constructorIngredients = useSelector(getConstructorIngredients);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -44,22 +48,24 @@ export const App = () => {
 						className={`${styles.title} text text_type_main-large mt-10 mb-5 pl-5`}>
 						Соберите бургер
 					</h1>
-					<main className={`${styles.main} pl-5 pr-5 mb-5`}>
-						<BurgerIngredients />
-						<BurgerConstructor ingredients={ingredients} />
-						{currentItem !== null && (
-							<Modal
-								name='Детали ингредиента'
-								onClose={() => dispatch(revokeCurrentItem())}>
-								<IngredientDetails item={currentItem} />
-							</Modal>
-						)}
-						{orderSubmitted && (
-							<Modal onClose={() => dispatch(exitOrder())}>
-								<OrderDetails id='034536' />
-							</Modal>
-						)}
-					</main>
+					<DndProvider backend={HTML5Backend}>
+						<main className={`${styles.main} pl-5 pr-5 mb-5`}>
+							<BurgerIngredients />
+							<BurgerConstructor ingredients={constructorIngredients} />
+							{currentItem !== null && (
+								<Modal
+									name='Детали ингредиента'
+									onClose={() => dispatch(revokeCurrentItem())}>
+									<IngredientDetails item={currentItem} />
+								</Modal>
+							)}
+							{orderSubmitted && (
+								<Modal onClose={() => dispatch(exitOrder())}>
+									<OrderDetails id='034536' />
+								</Modal>
+							)}
+						</main>
+					</DndProvider>
 				</>
 			)}
 		</div>
