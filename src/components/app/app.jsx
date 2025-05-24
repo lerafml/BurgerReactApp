@@ -19,7 +19,7 @@ import {
 import {
 	exitOrder,
 	getConstructorIngredients,
-	getOrderSubmitted,
+	getOrder,
 } from '../../services/constructor/reducer';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -29,7 +29,7 @@ export const App = () => {
 	const ingredients = useSelector(getAllIngredients);
 	const loading = useSelector(getIngredientsLoading);
 	const error = useSelector(getIngredientsError);
-	const orderSubmitted = useSelector(getOrderSubmitted);
+	const order = useSelector(getOrder);
 	const constructorIngredients = useSelector(getConstructorIngredients);
 	const dispatch = useDispatch();
 
@@ -59,9 +59,9 @@ export const App = () => {
 									<IngredientDetails item={currentItem} />
 								</Modal>
 							)}
-							{orderSubmitted && (
+							{order && (
 								<Modal onClose={() => dispatch(exitOrder())}>
-									<OrderDetails id='034536' />
+									<OrderDetails id={order} />
 								</Modal>
 							)}
 						</main>

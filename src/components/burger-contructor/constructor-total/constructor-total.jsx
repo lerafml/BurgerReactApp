@@ -5,14 +5,20 @@ import {
 	CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import {
+	getBun,
+	getConstructorIngredients,
 	getTotalPrice,
-	submitOrder,
 } from '../../../services/constructor/reducer';
 import { useDispatch, useSelector } from 'react-redux';
+import { makeOrder } from '../../../services/constructor/actions';
 
 const ConstructorTotal = () => {
 	const dispatch = useDispatch();
 	const total = useSelector(getTotalPrice);
+	const bun = useSelector(getBun);
+	const ingredients = useSelector(getConstructorIngredients);
+	let ids = ingredients.map((ingr) => ingr.item._id);
+	ids = [bun?._id ?? 0, ...ids, bun?._id ?? 0];
 
 	return (
 		<p className={styles.p}>
@@ -23,7 +29,7 @@ const ConstructorTotal = () => {
 				type='primary'
 				size='large'
 				extraClass='ml-10'
-				onClick={() => dispatch(submitOrder())}>
+				onClick={() => dispatch(makeOrder(ids))}>
 				Оформить заказ
 			</Button>
 		</p>

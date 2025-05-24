@@ -4,8 +4,7 @@ import { makeOrder } from '../constructor/actions';
 const initialState = {
 	bun: null,
 	ingredients: [],
-	orderSubmitted: false,
-	loading: false,
+	order: null,
 	error: false,
 };
 export const constructorSlice = createSlice({
@@ -27,15 +26,24 @@ export const constructorSlice = createSlice({
 				};
 			},
 		},
-		submitOrder: (state) => {
-			state.orderSubmitted = true;
+		removeIngredient: (state, action) => {
+			state.ingredients = state.ingredients.filter(
+				(i) => i.key !== action.payload
+			);
+		},
+		moveIngredient: (state, action) => {
+			const draggable = state.ingredients[action.payload[0]];
+			const newIngredients = [...state.ingredients];
+			newIngredients.splice(action.payload[0], 1);
+			newIngredients.splice(action.payload[1], 0, draggable);
+			state.ingredients = newIngredients;
 		},
 		exitOrder: (state) => {
-			state.orderSubmitted = false;
+			state.order = null;
 		},
 	},
 	selectors: {
-		getOrderSubmitted: (state) => state.orderSubmitted,
+		getOrder: (state) => state.order,
 		getBun: (state) => state.bun,
 		getConstructorIngredients: (state) => state.ingredients,
 		getTotalPrice: createSelector(
@@ -54,26 +62,26 @@ export const constructorSlice = createSlice({
 	extraReducers: (builder) => {
 		builder
 			.addCase(makeOrder.pending, (state) => {
-				state.loading = true;
+				state.order = null;
 				state.error = null;
 			})
-			.addCase(makeOrder.fulfilled, (state) => {
-				state.orderSubmitted = true;
-				state.loading = false;
+			.addCase(makeOrder.fulfilled, (state, action) => {
+				state.order = action.payload.order.number;
 				state.error = null;
 			})
 			.addCase(makeOrder.rejected, (state, action) => {
-				state.loading = false;
+				state.order = null;
 				state.error = action.error?.message;
 			});
 	},
 });
 
-export const { addIngredient, submitOrder, exitOrder } =
-	constructorSlice.actions;
 export const {
-	getOrderSubmitted,
-	getBun,
-	getConstructorIngredients,
-	getTotalPrice,
-} = constructorSlice.selectors;
+	addIngredient,
+	submitOrder,
+	exitOrder,
+	moveIngredient,
+	removeIngredient,
+} = constructorSlice.actions;
+export const { getOrder, getBun, getConstructorIngredients, getTotalPrice } =
+	constructorSlice.selectors;

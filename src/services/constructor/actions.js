@@ -3,7 +3,7 @@ import { sendOrder } from '../../utils/api';
 
 export const makeOrder = createAsyncThunk(
 	'constructor/makeOrder',
-	async (items) => {
-		return sendOrder(items);
+	async (ids) => {
+		return sendOrder(ids);
 	}
 );

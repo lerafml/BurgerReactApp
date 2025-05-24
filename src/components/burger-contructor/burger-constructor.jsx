@@ -15,7 +15,7 @@ export const BurgerConstructor = () => {
 	const dispatch = useDispatch();
 	const bun = useSelector(getBun);
 	const ingredients = useSelector(getConstructorIngredients);
-	console.log(ingredients);
+
 	const [{ isOver }, dropRef] = useDrop({
 		accept: 'ingredient',
 		drop(item) {

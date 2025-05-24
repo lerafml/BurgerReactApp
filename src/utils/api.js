@@ -17,9 +17,7 @@ export const getIngredients = () => {
 	});
 };
 
-export const sendOrder = (items) => {
-	const ids = items.map((i) => i.item._id);
-	console.log(ids);
+export const sendOrder = (ids) => {
 	return fetch('https://norma.nomoreparties.space/api/orders', {
 		method: 'POST',
 		headers: {
