@@ -30,15 +30,17 @@ export const BurgerConstructor = () => {
 	return (
 		<section className={`${styles.burger_constructor} `} ref={dropRef}>
 			{bun ? (
-				<ConstructorElement
-					isLocked={true}
-					text={`${bun.name} (верх)`}
-					price={bun.price}
-					thumbnail={bun.image}
-					key={-1}
-					extraClass='ml-8'
-					type='top'
-				/>
+				<div>
+					<ConstructorElement
+						isLocked={true}
+						text={`${bun.name} (верх)`}
+						price={bun.price}
+						thumbnail={bun.image}
+						key={-1}
+						extraClass='ml-8'
+						type='top'
+					/>
+				</div>
 			) : (
 				<div
 					className={`${styles.top} text text_type_main-small`}
@@ -56,15 +58,17 @@ export const BurgerConstructor = () => {
 				</div>
 			)}
 			{bun ? (
-				<ConstructorElement
-					isLocked={true}
-					text={`${bun.name} (низ)`}
-					price={bun.price}
-					thumbnail={bun.image}
-					extraClass='ml-8'
-					key={-2}
-					type='bottom'
-				/>
+				<div>
+					<ConstructorElement
+						isLocked={true}
+						text={`${bun.name} (низ)`}
+						price={bun.price}
+						thumbnail={bun.image}
+						extraClass='ml-8'
+						key={-2}
+						type='bottom'
+					/>
+				</div>
 			) : (
 				<div
 					className={`${styles.bottom} text text_type_main-small`}
