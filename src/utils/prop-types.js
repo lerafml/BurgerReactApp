@@ -14,3 +14,8 @@ export const ingredientPropType = PropTypes.shape({
 	image_mobile: PropTypes.string.isRequired,
 	__v: PropTypes.number.isRequired,
 });
+
+export const constructorIngredientPropType = PropTypes.shape({
+	item: ingredientPropType.isRequired,
+	key: PropTypes.string.isRequired,
+});

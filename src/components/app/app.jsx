@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import styles from './app.module.css';
 import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredients.jsx';
 import { BurgerConstructor } from '@components/burger-contructor/burger-constructor.jsx';
@@ -7,70 +7,65 @@ import { Preloader } from '@components/preloader/preloader.jsx';
 import Modal from '@components/modal/modal.jsx';
 import IngredientDetails from '../burger-ingredients/ingredient-details/ingredient-details';
 import OrderDetails from '../burger-contructor/order-details/order-details';
+import { useDispatch, useSelector } from 'react-redux';
+import { loadIngredients } from '../../services/ingredients/actions';
+import {
+	getAllIngredients,
+	getCurrentItem,
+	getIngredientsError,
+	getIngredientsLoading,
+	revokeCurrentItem,
+} from '../../services/ingredients/reducer';
+import {
+	exitOrder,
+	getConstructorIngredients,
+	getOrder,
+} from '../../services/constructor/reducer';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 export const App = () => {
-	const URL = 'https://norma.nomoreparties.space/api/ingredients';
-	const [currentItem, setCurrentItem] = useState(null);
-	const [orderSubmitted, setOrderSubmitted] = useState(false);
-	const [state, setState] = useState({
-		isLoaded: false,
-		hasError: false,
-		ingredients: [],
-	});
+	const currentItem = useSelector(getCurrentItem);
+	const ingredients = useSelector(getAllIngredients);
+	const loading = useSelector(getIngredientsLoading);
+	const error = useSelector(getIngredientsError);
+	const order = useSelector(getOrder);
+	const constructorIngredients = useSelector(getConstructorIngredients);
+	const dispatch = useDispatch();
 
 	useEffect(() => {
-		getIngredients();
-	}, []);
-
-	const getIngredients = () => {
-		fetch(URL)
-			.then((res) => {
-				if (res.ok) {
-					return res.json();
-				}
-				return Promise.reject(`Ошибка ${res.status}`);
-			})
-			.then((data) => {
-				setState({ ...state, ingredients: data.data, isLoaded: true });
-			})
-			.catch(() => {
-				setState({ ...state, hasError: true, isLoaded: false });
-			});
-	};
+		dispatch(loadIngredients());
+	}, [dispatch]);
 
 	return (
 		<div className={styles.app}>
 			<AppHeader />
-			{state.hasError && 'Ошибка чтения данных!'}
-			{!state.isLoaded && <Preloader />}
-			{state.isLoaded && (
+			{error && 'Ошибка чтения данных!'}
+			{loading && <Preloader />}
+			{!loading && ingredients.length > 0 && (
 				<>
 					<h1
 						className={`${styles.title} text text_type_main-large mt-10 mb-5 pl-5`}>
 						Соберите бургер
 					</h1>
-					<main className={`${styles.main} pl-5 pr-5 mb-5`}>
-						<BurgerIngredients
-							ingredients={state.ingredients}
-							onSelect={setCurrentItem}
-						/>
-						<BurgerConstructor
-							ingredients={state.ingredients}
-							onSubmit={setOrderSubmitted}
-						/>
-						{currentItem !== null && (
-							<Modal
-								name='Детали ингредиента'
-								onClose={() => setCurrentItem(null)}>
-								<IngredientDetails item={currentItem} />
-							</Modal>
-						)}
-						{orderSubmitted && (
-							<Modal onClose={() => setOrderSubmitted(false)}>
-								<OrderDetails id='034536' />
-							</Modal>
-						)}
-					</main>
+					<DndProvider backend={HTML5Backend}>
+						<main className={`${styles.main} pl-5 pr-5 mb-5`}>
+							<BurgerIngredients />
+							<BurgerConstructor ingredients={constructorIngredients} />
+							{currentItem !== null && (
+								<Modal
+									name='Детали ингредиента'
+									onClose={() => dispatch(revokeCurrentItem())}>
+									<IngredientDetails item={currentItem} />
+								</Modal>
+							)}
+							{order && (
+								<Modal onClose={() => dispatch(exitOrder())}>
+									<OrderDetails id={order} />
+								</Modal>
+							)}
+						</main>
+					</DndProvider>
 				</>
 			)}
 		</div>

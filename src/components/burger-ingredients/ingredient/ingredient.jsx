@@ -7,10 +7,17 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientImage from '@components/burger-ingredients/ingredient-image/ingredient-image';
 import PropTypes from 'prop-types';
+import { useDrag } from 'react-dnd';
 
-const Ingredient = ({ item, onClick }) => {
+const Ingredient = ({ item, count, onClick }) => {
+	const [, ref] = useDrag({
+		type: 'ingredient',
+		item: { item },
+	});
+
 	return (
 		<section
+			ref={ref}
 			className={styles.ingredient}
 			role='button'
 			tabIndex='0'
@@ -22,7 +29,7 @@ const Ingredient = ({ item, onClick }) => {
 					onClick(item);
 				}
 			}}>
-			<Counter count={1} size='default' extraClass='m-1' />
+			{count > 0 && <Counter count={count} size='default' extraClass='m-1' />}
 			<IngredientImage image={item.image} name={item.name} />
 			<p className={`${styles.price} text text_type_digits-default mt-1 mb-1`}>
 				<span className='pr-1'>{item.price}</span>
@@ -37,6 +44,7 @@ const Ingredient = ({ item, onClick }) => {
 
 Ingredient.propTypes = {
 	item: ingredientPropType.isRequired,
+	count: PropTypes.number.isRequired,
 	onClick: PropTypes.func.isRequired,
 };
 

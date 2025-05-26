@@ -1,48 +1,81 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import styles from './burger-ingredients.module.css';
-import * as PropTypes from 'prop-types';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import { ingredientPropType } from '@utils/prop-types.js';
 import BurgerSection from '@components/burger-ingredients/burger-section/burger-section';
+import { useSelector } from 'react-redux';
+import { getIngredientsByType } from '../../services/ingredients/reducer';
 
-export const BurgerIngredients = ({ ingredients, onSelect }) => {
+export const BurgerIngredients = () => {
+	const ingredients = useSelector(getIngredientsByType);
+	const [activeTab, setActiveTab] = useState({
+		bun: true,
+		main: false,
+		sauce: false,
+	});
+	const navRef = useRef();
+	const bunsRef = useRef();
+	const mainsRef = useRef();
+	const saucesRef = useRef();
+
+	const handleScroll = () => {
+		const navY = navRef.current.getBoundingClientRect().bottom;
+		const bunsY = Math.abs(bunsRef.current.getBoundingClientRect().top - navY);
+		const mainsY = Math.abs(
+			mainsRef.current.getBoundingClientRect().top - navY
+		);
+		const saucesY = Math.abs(
+			saucesRef.current.getBoundingClientRect().top - navY
+		);
+
+		if (bunsY < mainsY && bunsY < saucesY) {
+			setActiveTab({
+				bun: true,
+				main: false,
+				sauce: false,
+			});
+		} else if (mainsY < bunsY && mainsY < saucesY) {
+			setActiveTab({
+				bun: false,
+				main: true,
+				sauce: false,
+			});
+		} else {
+			setActiveTab({
+				bun: false,
+				main: false,
+				sauce: true,
+			});
+		}
+	};
+
 	return (
 		<section className={styles.burger_ingredients}>
-			<nav>
+			<nav ref={navRef}>
 				<ul className={styles.menu}>
-					<Tab value='bun' active={true} onClick={() => {}}>
+					<Tab value='bun' active={activeTab['bun']} onClick={() => {}}>
 						Булки
 					</Tab>
-					<Tab value='main' active={false} onClick={() => {}}>
+					<Tab value='main' active={activeTab['main']} onClick={() => {}}>
 						Начинки
 					</Tab>
-					<Tab value='sauce' active={false} onClick={() => {}}>
+					<Tab value='sauce' active={activeTab['sauce']} onClick={() => {}}>
 						Соусы
 					</Tab>
 				</ul>
 			</nav>
-			<div className={`${styles.sections} custom-scroll`}>
-				<BurgerSection
-					name='Булки'
-					ingredients={ingredients.filter((i) => i.type === 'bun')}
-					onSelect={onSelect}
-				/>
-				<BurgerSection
-					name='Начинки'
-					ingredients={ingredients.filter((i) => i.type === 'main')}
-					onSelect={onSelect}
-				/>
-				<BurgerSection
-					name='Соусы'
-					ingredients={ingredients.filter((i) => i.type === 'sauce')}
-					onSelect={onSelect}
-				/>
+			<div
+				className={`${styles.sections} custom-scroll`}
+				onScroll={handleScroll}>
+				<section ref={bunsRef}>
+					<BurgerSection name='Булки' ingredients={ingredients.get('bun')} />
+				</section>
+				<section ref={mainsRef}>
+					<BurgerSection name='Начинки' ingredients={ingredients.get('main')} />
+				</section>
+				<section ref={saucesRef}>
+					<BurgerSection name='Соусы' ingredients={ingredients.get('sauce')} />
+				</section>
 			</div>
 		</section>
 	);
-};
-
-BurgerIngredients.propTypes = {
-	ingredients: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired,
-	onSelect: PropTypes.func.isRequired,
 };

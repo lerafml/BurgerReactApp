@@ -1,12 +1,25 @@
 import React from 'react';
 import styles from './constructor-total.module.css';
-import * as PropTypes from 'prop-types';
 import {
 	Button,
 	CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
+import {
+	getBun,
+	getConstructorIngredients,
+	getTotalPrice,
+} from '../../../services/constructor/reducer';
+import { useDispatch, useSelector } from 'react-redux';
+import { makeOrder } from '../../../services/constructor/actions';
 
-const ConstructorTotal = ({ total, onSubmit }) => {
+const ConstructorTotal = () => {
+	const dispatch = useDispatch();
+	const total = useSelector(getTotalPrice);
+	const bun = useSelector(getBun);
+	const ingredients = useSelector(getConstructorIngredients);
+	let ids = ingredients.map((ingr) => ingr.item._id);
+	ids = [bun?._id ?? 0, ...ids, bun?._id ?? 0];
+
 	return (
 		<p className={styles.p}>
 			<span className='text text_type_digits-medium mr-1'>{total}</span>
@@ -16,16 +29,11 @@ const ConstructorTotal = ({ total, onSubmit }) => {
 				type='primary'
 				size='large'
 				extraClass='ml-10'
-				onClick={() => onSubmit(true)}>
+				onClick={() => dispatch(makeOrder(ids))}>
 				Оформить заказ
 			</Button>
 		</p>
 	);
-};
-
-ConstructorTotal.propTypes = {
-	total: PropTypes.number.isRequired,
-	onSubmit: PropTypes.func.isRequired,
 };
 
 export default ConstructorTotal;
