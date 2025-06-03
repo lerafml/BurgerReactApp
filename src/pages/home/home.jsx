@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import styles from './home.module.css';
 import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredients.jsx';
 import { BurgerConstructor } from '@components/burger-contructor/burger-constructor.jsx';
-import { AppHeader } from '@components/app-header/app-header.jsx';
 import { Preloader } from '@components/preloader/preloader.jsx';
 import Modal from '@components/modal/modal.jsx';
 import IngredientDetails from '@components/burger-ingredients/ingredient-details/ingredient-details';
@@ -38,8 +37,7 @@ export const Home = () => {
 	}, [dispatch]);
 
 	return (
-		<div className={styles.app}>
-			<AppHeader />
+		<>
 			{error && 'Ошибка чтения данных!'}
 			{loading && <Preloader />}
 			{!loading && ingredients.length > 0 && (
@@ -68,6 +66,6 @@ export const Home = () => {
 					</DndProvider>
 				</>
 			)}
-		</div>
+		</>
 	);
 };
