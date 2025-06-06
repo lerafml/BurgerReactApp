@@ -1,10 +1,16 @@
 import React from 'react';
 import styles from './ingredient-details.module.css';
-import { ingredientPropType } from '@utils/prop-types.js';
 import IngredientImage from '@components/burger-ingredients/ingredient-image/ingredient-image';
 import ListItem from '@components/burger-ingredients/ingredient-details/list-item/list-item';
+import { useParams } from 'react-router-dom';
+import { getAllIngredients } from '../../../services/ingredients/reducer';
+import { useSelector } from 'react-redux';
 
-const IngredientDetails = ({ item }) => {
+const IngredientDetails = () => {
+	let params = useParams();
+	let ingredients = useSelector(getAllIngredients);
+	let item = ingredients.filter((ingr) => ingr._id === params.id)[0];
+
 	return (
 		<>
 			<IngredientImage image={item.image_large} name={item.name} />
@@ -17,10 +23,6 @@ const IngredientDetails = ({ item }) => {
 			</ul>
 		</>
 	);
-};
-
-IngredientDetails.propTypes = {
-	item: ingredientPropType.isRequired,
 };
 
 export default IngredientDetails;

@@ -6,8 +6,11 @@ import {
 	Button,
 	Input,
 } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useNavigate } from 'react-router-dom';
 
 export const Register = () => {
+	const navigate = useNavigate();
+
 	return (
 		<div className={styles.wrapper}>
 			<p className='text text_type_main-medium'>Регистрация</p>
@@ -33,7 +36,8 @@ export const Register = () => {
 					htmlType='button'
 					type='secondary'
 					size='medium'
-					extraClass={styles.btn}>
+					extraClass={styles.btn}
+					onClick={() => navigate('/login', { replace: true })}>
 					Войти
 				</Button>
 			</section>

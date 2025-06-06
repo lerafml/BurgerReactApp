@@ -1,6 +1,7 @@
 .burger_section {
 	display: flex;
 	flex-flow: row wrap;
+	justify-content: space-around;
 	width: 100%;
 }
 

@@ -5,8 +5,10 @@ import {
 	PasswordInput,
 	Button,
 } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useNavigate } from 'react-router-dom';
 
 export const Login = () => {
+	const navigate = useNavigate();
 	return (
 		<div className={styles.wrapper}>
 			<p className='text text_type_main-medium'>Вход</p>
@@ -23,7 +25,8 @@ export const Login = () => {
 					htmlType='button'
 					type='secondary'
 					size='medium'
-					extraClass={styles.btn}>
+					extraClass={styles.btn}
+					onClick={() => navigate('/register', { replace: true })}>
 					Зарегистрироваться
 				</Button>
 			</section>
@@ -35,7 +38,8 @@ export const Login = () => {
 					htmlType='button'
 					type='secondary'
 					size='medium'
-					extraClass={styles.btn}>
+					extraClass={styles.btn}
+					onClick={() => navigate('/forgot-password', { replace: true })}>
 					Восстановить пароль
 				</Button>
 			</section>
