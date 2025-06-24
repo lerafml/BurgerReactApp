@@ -9,12 +9,15 @@ import {
 	exitOrder,
 	getConstructorIngredients,
 	getOrder,
+	getOrderPending,
 } from '../../services/constructor/reducer';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import { Preloader } from '@components/preloader/preloader.jsx';
 
 export const Home = () => {
 	const order = useSelector(getOrder);
+	const isOrderPending = useSelector(getOrderPending);
 	const constructorIngredients = useSelector(getConstructorIngredients);
 	const dispatch = useDispatch();
 
@@ -28,6 +31,12 @@ export const Home = () => {
 				<main className={`${styles.main} pl-5 pr-5 mb-5`}>
 					<BurgerIngredients />
 					<BurgerConstructor ingredients={constructorIngredients} />
+					{isOrderPending && (
+						<Modal onClose={() => {}}>
+							<p className='text text_type_main-medium'>Оформляем заказ...</p>
+							<Preloader />
+						</Modal>
+					)}
 					{order && (
 						<Modal onClose={() => dispatch(exitOrder())}>
 							<OrderDetails id={order} />

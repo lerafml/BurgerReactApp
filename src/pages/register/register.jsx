@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './register.module.css';
 import {
 	EmailInput,
@@ -7,25 +7,53 @@ import {
 	Input,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { register } from '../../services/user/actions';
 
 export const Register = () => {
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
+	const [userName, setUserName] = useState('');
+	const [email, setEmail] = useState('');
+	const [psw, setPassword] = useState('');
+
+	const onRegisterClick = () => {
+		dispatch(register({ email: email, password: psw, name: userName }));
+	};
 
 	return (
 		<div className={styles.wrapper}>
 			<p className='text text_type_main-medium'>Регистрация</p>
 			<Input
+				value={userName}
 				type={'text'}
 				placeholder={'Имя'}
 				name={'name'}
 				error={false}
 				errorText={'Ошибка'}
 				size={'default'}
+				onChange={(e) => setUserName(e.target.value)}
 				extraClass='mt-4'
 			/>
-			<EmailInput name={'email'} isIcon={false} extraClass='mt-6' />
-			<PasswordInput name={'password'} extraClass='mt-6' />
-			<Button htmlType='button' type='primary' size='large' extraClass='mt-6'>
+			<EmailInput
+				name={'email'}
+				value={email}
+				isIcon={false}
+				extraClass='mt-6'
+				onChange={(e) => setEmail(e.target.value)}
+			/>
+			<PasswordInput
+				name={'password'}
+				value={psw}
+				extraClass='mt-6'
+				onChange={(e) => setPassword(e.target.value)}
+			/>
+			<Button
+				htmlType='button'
+				type='primary'
+				size='large'
+				extraClass='mt-6'
+				onClick={onRegisterClick}>
 				Зарегистрироваться
 			</Button>
 			<section className={`${styles.section} mt-20`}>

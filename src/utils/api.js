@@ -11,6 +11,10 @@ const apiConfig = {
 	headers: {
 		'Content-Type': 'application/json',
 	},
+	headersAuth: {
+		'Content-Type': 'application/json',
+		authorization: localStorage.getItem('accessToken'),
+	},
 };
 
 const checkReponse = (res) => {
@@ -30,7 +34,7 @@ export const getIngredients = () => {
 export const sendOrder = (ids) => {
 	return fetch(`${apiConfig.orderUrl}`, {
 		method: 'POST',
-		headers: apiConfig.headers,
+		headers: apiConfig.headersAuth,
 		body: JSON.stringify({ ingredients: ids }),
 	})
 		.then(checkReponse)
@@ -39,11 +43,11 @@ export const sendOrder = (ids) => {
 		});
 };
 
-export const registerUser = (email, psw, name) => {
+export const registerUser = ({ email, password, name }) => {
 	return fetch(`${apiConfig.registerUrl}`, {
 		method: 'POST',
 		headers: apiConfig.headers,
-		body: JSON.stringify({ email: email, password: psw, name: name }),
+		body: JSON.stringify({ email: email, password: password, name: name }),
 	})
 		.then(checkReponse)
 		.then((refreshData) => {
@@ -59,11 +63,11 @@ export const registerUser = (email, psw, name) => {
 		});
 };
 
-export const authorizeUser = (email, psw) => {
+export const authorizeUser = ({ email, password }) => {
 	return fetch(`${apiConfig.loginUrl}`, {
 		method: 'POST',
 		headers: apiConfig.headers,
-		body: JSON.stringify({ email: email, password: psw }),
+		body: JSON.stringify({ email: email, password: password }),
 	})
 		.then(checkReponse)
 		.then((refreshData) => {
@@ -106,6 +110,10 @@ export const logoutUser = () => {
 		body: JSON.stringify({ token: localStorage.getItem('refreshToken') }),
 	})
 		.then(checkReponse)
+		.then(() => {
+			localStorage.removeItem('refreshToken');
+			localStorage.removeItem('accessToken');
+		})
 		.catch((error) => {
 			return Promise.reject(`Ошибка ${error.message}`);
 		});
@@ -114,19 +122,17 @@ export const logoutUser = () => {
 export const getUser = () => {
 	return fetchWithRefresh(`${apiConfig.authUrl}`, {
 		method: 'GET',
-		headers: apiConfig.headers,
-	})
-		.then(checkReponse)
-		.catch((error) => {
-			return Promise.reject(`Ошибка ${error.message}`);
-		});
+		headers: apiConfig.headersAuth,
+	}).catch((error) => {
+		return Promise.reject(`Ошибка ${error.message}`);
+	});
 };
 
-export const updateUser = (email, psw, name) => {
+export const updateUser = ({ email, password, name }) => {
 	return fetchWithRefresh(`${apiConfig.authUrl}`, {
 		method: 'PATCH',
-		headers: apiConfig.headers,
-		body: JSON.stringify({ email: email, password: psw, name: name }),
+		headers: apiConfig.headersAuth,
+		body: JSON.stringify({ email: email, password: password, name: name }),
 	})
 		.then(checkReponse)
 		.catch((error) => {
@@ -146,11 +152,11 @@ export const resetPassword = (mail) => {
 		});
 };
 
-export const resetPasswordConfirm = (psw, code) => {
-	return fetch(`${apiConfig.pswResetUrl}`, {
+export const resetPasswordConfirm = ({ password, token }) => {
+	return fetch(`${apiConfig.resetUrl}`, {
 		method: 'POST',
 		headers: apiConfig.headers,
-		body: JSON.stringify({ password: psw, token: code }),
+		body: JSON.stringify({ password: password, token: token }),
 	})
 		.then(checkReponse)
 		.catch((error) => {

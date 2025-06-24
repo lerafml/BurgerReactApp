@@ -1,30 +1,58 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './reset-password.module.css';
 import {
 	PasswordInput,
 	Button,
 	Input,
 } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useNavigate } from 'react-router-dom';
+import { resetPasswordConfirm } from '../../utils/api';
 
 export const ResetPassword = () => {
+	const navigate = useNavigate();
+	const [psw, setPassword] = useState('');
+	const [code, setCode] = useState('');
+
+	useEffect(() => {
+		if (!localStorage.getItem('reset')) {
+			navigate('/forgot-password', { replace: true });
+		}
+	}, [navigate]);
+
+	const onSubmitHandler = () => {
+		resetPasswordConfirm({ password: psw, token: code }).then(() => {
+			localStorage.removeItem('reset');
+			navigate('/login', { replace: true });
+		});
+	};
+
 	return (
 		<div className={styles.wrapper}>
 			<p className='text text_type_main-medium'>Восстановление пароля</p>
 			<PasswordInput
 				placeholder='Введите новый пароль'
 				name={'password'}
+				value={psw}
 				extraClass='mt-4'
+				onChange={(e) => setPassword(e.target.value)}
 			/>
 			<Input
 				type={'text'}
 				placeholder={'Введите код из письма'}
 				name={'code'}
+				value={code}
 				error={false}
 				errorText={'Ошибка'}
 				size={'default'}
 				extraClass='mt-4'
+				onChange={(e) => setCode(e.target.value)}
 			/>
-			<Button htmlType='button' type='primary' size='large' extraClass='mt-6'>
+			<Button
+				htmlType='button'
+				type='primary'
+				size='large'
+				extraClass='mt-6'
+				onClick={onSubmitHandler}>
 				Сохранить
 			</Button>
 			<section className={`${styles.section} mt-20`}>
@@ -35,7 +63,8 @@ export const ResetPassword = () => {
 					htmlType='button'
 					type='secondary'
 					size='medium'
-					extraClass={styles.btn}>
+					extraClass={styles.btn}
+					onClick={() => navigate('/login', { replace: true })}>
 					Войти
 				</Button>
 			</section>

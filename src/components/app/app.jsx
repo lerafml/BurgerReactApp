@@ -17,6 +17,11 @@ import {
 	getIngredientsError,
 	getIngredientsLoading,
 } from '../../services/ingredients/reducer';
+import { Profile } from '../../pages/profile/profile';
+import { checkUserAuth } from '../../services/user/actions';
+import { OnlyAuth, OnlyUnAuth } from '../protected-route/protected-route';
+import { ProfileEditor } from '../../components/profile-editor/profile-editor';
+import { Orders } from '../../components/orders/orders';
 
 export const App = () => {
 	let location = useLocation();
@@ -28,6 +33,7 @@ export const App = () => {
 	const background = location.state && location.state.backgroundLocation;
 
 	useEffect(() => {
+		dispatch(checkUserAuth());
 		dispatch(loadIngredients());
 	}, [dispatch]);
 
@@ -62,12 +68,47 @@ export const App = () => {
 									</div>
 								}
 							/>
-							<Route path='/login' element={<Login />} />
-							<Route path='/register' element={<Register />} />
-							<Route path='/forgot-password' element={<ForgotPassword />} />
-							<Route path='/reset-password' element={<ResetPassword />} />
+							<Route
+								path='/login'
+								element={<OnlyUnAuth component={<Login />} />}
+							/>
+							<Route
+								path='/register'
+								element={<OnlyUnAuth component={<Register />} />}
+							/>
+							<Route
+								path='/forgot-password'
+								element={<OnlyUnAuth component={<ForgotPassword />} />}
+							/>
+							<Route
+								path='/reset-password'
+								element={<OnlyUnAuth component={<ResetPassword />} />}
+							/>
+							<Route
+								path='/profile'
+								element={<OnlyAuth component={<Profile />} />}>
+								<Route
+									index
+									element={<OnlyAuth component={<ProfileEditor />} />}
+								/>
+								<Route
+									path='orders'
+									element={<OnlyAuth component={<Orders />} />}
+								/>
+								<Route
+									path='*'
+									element={
+										<p className='text text_type_main-large'>404 Not Found</p>
+									}
+								/>
+							</Route>
 						</Route>
-						<Route path='*' element={<div>404 Not Found</div>} />
+						<Route
+							path='*'
+							element={
+								<p className='text text_type_main-large'>404 Not Found</p>
+							}
+						/>
 					</Routes>
 				</div>
 			)}
