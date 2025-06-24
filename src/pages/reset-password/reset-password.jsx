@@ -19,7 +19,8 @@ export const ResetPassword = () => {
 		}
 	}, [navigate]);
 
-	const onSubmitHandler = () => {
+	const onSubmit = (e) => {
+		e.preventDefault();
 		resetPasswordConfirm({ password: psw, token: code }).then(() => {
 			localStorage.removeItem('reset');
 			navigate('/login', { replace: true });
@@ -29,32 +30,29 @@ export const ResetPassword = () => {
 	return (
 		<div className={styles.wrapper}>
 			<p className='text text_type_main-medium'>Восстановление пароля</p>
-			<PasswordInput
-				placeholder='Введите новый пароль'
-				name={'password'}
-				value={psw}
-				extraClass='mt-4'
-				onChange={(e) => setPassword(e.target.value)}
-			/>
-			<Input
-				type={'text'}
-				placeholder={'Введите код из письма'}
-				name={'code'}
-				value={code}
-				error={false}
-				errorText={'Ошибка'}
-				size={'default'}
-				extraClass='mt-4'
-				onChange={(e) => setCode(e.target.value)}
-			/>
-			<Button
-				htmlType='button'
-				type='primary'
-				size='large'
-				extraClass='mt-6'
-				onClick={onSubmitHandler}>
-				Сохранить
-			</Button>
+			<form onSubmit={onSubmit} className={styles.form}>
+				<PasswordInput
+					placeholder='Введите новый пароль'
+					name={'password'}
+					value={psw}
+					extraClass='mt-4'
+					onChange={(e) => setPassword(e.target.value)}
+				/>
+				<Input
+					type={'text'}
+					placeholder={'Введите код из письма'}
+					name={'code'}
+					value={code}
+					error={false}
+					errorText={'Ошибка'}
+					size={'default'}
+					extraClass='mt-4'
+					onChange={(e) => setCode(e.target.value)}
+				/>
+				<Button htmlType='submit' type='primary' size='large' extraClass='mt-6'>
+					Сохранить
+				</Button>
+			</form>
 			<section className={`${styles.section} mt-20`}>
 				<p className='text text_type_main-default text_color_inactive pr-4'>
 					Вспомнили пароль?

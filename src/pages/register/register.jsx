@@ -17,45 +17,43 @@ export const Register = () => {
 	const [email, setEmail] = useState('');
 	const [psw, setPassword] = useState('');
 
-	const onRegisterClick = () => {
+	const onSubmit = (e) => {
+		e.preventDefault();
 		dispatch(register({ email: email, password: psw, name: userName }));
 	};
 
 	return (
 		<div className={styles.wrapper}>
 			<p className='text text_type_main-medium'>Регистрация</p>
-			<Input
-				value={userName}
-				type={'text'}
-				placeholder={'Имя'}
-				name={'name'}
-				error={false}
-				errorText={'Ошибка'}
-				size={'default'}
-				onChange={(e) => setUserName(e.target.value)}
-				extraClass='mt-4'
-			/>
-			<EmailInput
-				name={'email'}
-				value={email}
-				isIcon={false}
-				extraClass='mt-6'
-				onChange={(e) => setEmail(e.target.value)}
-			/>
-			<PasswordInput
-				name={'password'}
-				value={psw}
-				extraClass='mt-6'
-				onChange={(e) => setPassword(e.target.value)}
-			/>
-			<Button
-				htmlType='button'
-				type='primary'
-				size='large'
-				extraClass='mt-6'
-				onClick={onRegisterClick}>
-				Зарегистрироваться
-			</Button>
+			<form onSubmit={onSubmit} className={styles.form}>
+				<Input
+					value={userName}
+					type={'text'}
+					placeholder={'Имя'}
+					name={'name'}
+					error={false}
+					errorText={'Ошибка'}
+					size={'default'}
+					onChange={(e) => setUserName(e.target.value)}
+					extraClass='mt-4'
+				/>
+				<EmailInput
+					name={'email'}
+					value={email}
+					isIcon={false}
+					extraClass='mt-6'
+					onChange={(e) => setEmail(e.target.value)}
+				/>
+				<PasswordInput
+					name={'password'}
+					value={psw}
+					extraClass='mt-6'
+					onChange={(e) => setPassword(e.target.value)}
+				/>
+				<Button htmlType='submit' type='primary' size='large' extraClass='mt-6'>
+					Зарегистрироваться
+				</Button>
+			</form>
 			<section className={`${styles.section} mt-20`}>
 				<p className='text text_type_main-default text_color_inactive pr-4'>
 					Уже зарегистрированы?

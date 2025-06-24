@@ -1,13 +1,14 @@
+const BASE_URL = 'https://norma.nomoreparties.space/api';
 const apiConfig = {
-	baseUrl: 'https://norma.nomoreparties.space/api/ingredients',
-	orderUrl: 'https://norma.nomoreparties.space/api/orders',
-	pswResetUrl: 'https://norma.nomoreparties.space/api/password-reset',
-	resetUrl: 'https://norma.nomoreparties.space/api/password-reset/reset',
-	registerUrl: 'https://norma.nomoreparties.space/api/auth/register',
-	loginUrl: 'https://norma.nomoreparties.space/api/auth/login',
-	logoutUrl: 'https://norma.nomoreparties.space/api/auth/logout',
-	tokenUrl: 'https://norma.nomoreparties.space/api/auth/token',
-	authUrl: 'https://norma.nomoreparties.space/api/auth/user',
+	baseUrl: `${BASE_URL}/ingredients`,
+	orderUrl: `${BASE_URL}/orders`,
+	pswResetUrl: `${BASE_URL}/password-reset`,
+	resetUrl: `${BASE_URL}/password-reset/reset`,
+	registerUrl: `${BASE_URL}/auth/register`,
+	loginUrl: `${BASE_URL}/auth/login`,
+	logoutUrl: `${BASE_URL}/auth/logout`,
+	tokenUrl: `${BASE_URL}/auth/token`,
+	authUrl: `${BASE_URL}/auth/user`,
 	headers: {
 		'Content-Type': 'application/json',
 	},

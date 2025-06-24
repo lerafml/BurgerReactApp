@@ -15,34 +15,32 @@ export const Login = () => {
 	const [email, setEmail] = useState('');
 	const [psw, setPassword] = useState('');
 
-	const handleLoginClick = () => {
+	const onSubmit = (e) => {
+		e.preventDefault();
 		dispatch(authUser({ email: email, password: psw }));
 	};
 
 	return (
 		<div className={styles.wrapper}>
 			<p className='text text_type_main-medium'>Вход</p>
-			<EmailInput
-				name={'email'}
-				isIcon={false}
-				extraClass='mt-6'
-				value={email}
-				onChange={(e) => setEmail(e.target.value)}
-			/>
-			<PasswordInput
-				name={'password'}
-				extraClass='mt-6'
-				value={psw}
-				onChange={(e) => setPassword(e.target.value)}
-			/>
-			<Button
-				htmlType='button'
-				type='primary'
-				size='large'
-				extraClass='mt-6'
-				onClick={handleLoginClick}>
-				Войти
-			</Button>
+			<form onSubmit={onSubmit} className={styles.form}>
+				<EmailInput
+					name={'email'}
+					isIcon={false}
+					extraClass='mt-6'
+					value={email}
+					onChange={(e) => setEmail(e.target.value)}
+				/>
+				<PasswordInput
+					name={'password'}
+					extraClass='mt-6'
+					value={psw}
+					onChange={(e) => setPassword(e.target.value)}
+				/>
+				<Button htmlType='submit' type='primary' size='large' extraClass='mt-6'>
+					Войти
+				</Button>
+			</form>
 			<section className={`${styles.section} mt-20`}>
 				<p className='text text_type_main-default text_color_inactive pr-4'>
 					Вы - новый пользователь?

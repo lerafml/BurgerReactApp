@@ -8,21 +8,13 @@ import {
 } from '../../utils/api';
 import { setIsAuthChecked, setUser } from './reducer';
 
-export const register = createAsyncThunk('user/register', async (data) => {
-	return registerUser(data);
-});
+export const register = createAsyncThunk('user/register', registerUser);
 
-export const authUser = createAsyncThunk('user/auth', async (data) => {
-	return authorizeUser(data);
-});
+export const authUser = createAsyncThunk('user/auth', authorizeUser);
 
-export const logout = createAsyncThunk('user/logout', async () => {
-	return logoutUser();
-});
+export const logout = createAsyncThunk('user/logout', logoutUser);
 
-export const updateUserData = createAsyncThunk('user/update', async (data) => {
-	return updateUser(data);
-});
+export const updateUserData = createAsyncThunk('user/update', updateUser);
 
 export const checkUserAuth = createAsyncThunk(
 	'user/checkUserAuth',

@@ -7,7 +7,6 @@ import OrderDetails from '@components/burger-contructor/order-details/order-deta
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	exitOrder,
-	getConstructorIngredients,
 	getOrder,
 	getOrderPending,
 } from '../../services/constructor/reducer';
@@ -18,7 +17,6 @@ import { Preloader } from '@components/preloader/preloader.jsx';
 export const Home = () => {
 	const order = useSelector(getOrder);
 	const isOrderPending = useSelector(getOrderPending);
-	const constructorIngredients = useSelector(getConstructorIngredients);
 	const dispatch = useDispatch();
 
 	return (
@@ -30,7 +28,7 @@ export const Home = () => {
 			<DndProvider backend={HTML5Backend}>
 				<main className={`${styles.main} pl-5 pr-5 mb-5`}>
 					<BurgerIngredients />
-					<BurgerConstructor ingredients={constructorIngredients} />
+					<BurgerConstructor />
 					{isOrderPending && (
 						<Modal onClose={() => {}}>
 							<p className='text text_type_main-medium'>Оформляем заказ...</p>

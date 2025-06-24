@@ -25,12 +25,13 @@ export const ProfileEditor = () => {
 		setIsEdited(false);
 	};
 
-	const onSaveClick = () => {
+	const onSubmit = (e) => {
+		e.preventDefault();
 		dispatch(updateUserData({ email: email, password: psw, name: userName }));
 	};
 
 	return (
-		<>
+		<form onSubmit={onSubmit}>
 			<Input
 				type={'text'}
 				placeholder={'Имя'}
@@ -78,15 +79,14 @@ export const ProfileEditor = () => {
 						Отмена
 					</Button>
 					<Button
-						htmlType='button'
+						htmlType='submit'
 						type='primary'
 						size='large'
-						extraClass='mt-6'
-						onClick={onSaveClick}>
+						extraClass='mt-6'>
 						Сохранить
 					</Button>
 				</div>
 			)}
-		</>
+		</form>
 	);
 };
