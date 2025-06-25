@@ -1,73 +1,117 @@
 import React, { useEffect } from 'react';
-import styles from './app.module.css';
-import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredients.jsx';
-import { BurgerConstructor } from '@components/burger-contructor/burger-constructor.jsx';
 import { AppHeader } from '@components/app-header/app-header.jsx';
-import { Preloader } from '@components/preloader/preloader.jsx';
+import styles from './app.module.css';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import { Home } from '../../../src/pages/home/home';
+import { Login } from '../../../src/pages/login/login';
+import { Register } from '../../../src/pages/register/register';
+import { ForgotPassword } from '../../../src/pages/forgot-password/forgot-password';
+import { ResetPassword } from '../../../src/pages/reset-password/reset-password';
+import IngredientDetails from '@components/burger-ingredients/ingredient-details/ingredient-details';
 import Modal from '@components/modal/modal.jsx';
-import IngredientDetails from '../burger-ingredients/ingredient-details/ingredient-details';
-import OrderDetails from '../burger-contructor/order-details/order-details';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadIngredients } from '../../services/ingredients/actions';
+import { Preloader } from '@components/preloader/preloader.jsx';
 import {
 	getAllIngredients,
-	getCurrentItem,
 	getIngredientsError,
 	getIngredientsLoading,
-	revokeCurrentItem,
 } from '../../services/ingredients/reducer';
-import {
-	exitOrder,
-	getConstructorIngredients,
-	getOrder,
-} from '../../services/constructor/reducer';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
+import { Profile } from '../../pages/profile/profile';
+import { checkUserAuth } from '../../services/user/actions';
+import { OnlyAuth, OnlyUnAuth } from '../protected-route/protected-route';
+import { ProfileEditor } from '../../components/profile-editor/profile-editor';
+import { Orders } from '../../components/orders/orders';
 
 export const App = () => {
-	const currentItem = useSelector(getCurrentItem);
-	const ingredients = useSelector(getAllIngredients);
+	let location = useLocation();
+	let navigate = useNavigate();
+	const dispatch = useDispatch();
 	const loading = useSelector(getIngredientsLoading);
 	const error = useSelector(getIngredientsError);
-	const order = useSelector(getOrder);
-	const constructorIngredients = useSelector(getConstructorIngredients);
-	const dispatch = useDispatch();
+	const ingredients = useSelector(getAllIngredients);
+	const background = location.state && location.state.backgroundLocation;
 
 	useEffect(() => {
+		dispatch(checkUserAuth());
 		dispatch(loadIngredients());
 	}, [dispatch]);
 
 	return (
-		<div className={styles.app}>
-			<AppHeader />
+		<>
 			{error && 'Ошибка чтения данных!'}
 			{loading && <Preloader />}
 			{!loading && ingredients.length > 0 && (
-				<>
-					<h1
-						className={`${styles.title} text text_type_main-large mt-10 mb-5 pl-5`}>
-						Соберите бургер
-					</h1>
-					<DndProvider backend={HTML5Backend}>
-						<main className={`${styles.main} pl-5 pr-5 mb-5`}>
-							<BurgerIngredients />
-							<BurgerConstructor ingredients={constructorIngredients} />
-							{currentItem !== null && (
-								<Modal
-									name='Детали ингредиента'
-									onClose={() => dispatch(revokeCurrentItem())}>
-									<IngredientDetails item={currentItem} />
-								</Modal>
-							)}
-							{order && (
-								<Modal onClose={() => dispatch(exitOrder())}>
-									<OrderDetails id={order} />
-								</Modal>
-							)}
-						</main>
-					</DndProvider>
-				</>
+				<div className={styles.app}>
+					{background && (
+						<Routes>
+							<Route
+								path='/ingredients/:id'
+								element={
+									<Modal name='Детали ингредиента' onClose={() => navigate(-1)}>
+										<IngredientDetails />
+									</Modal>
+								}
+							/>
+						</Routes>
+					)}
+					<Routes location={background || location}>
+						<Route path='/' element={<AppHeader />}>
+							<Route index element={<Home />} />
+							<Route
+								path='/ingredients/:id'
+								element={
+									<div
+										className={`${styles.details} text text_type_main-medium`}>
+										<h1>Детали ингредиента</h1>
+										<IngredientDetails />
+									</div>
+								}
+							/>
+							<Route
+								path='/login'
+								element={<OnlyUnAuth component={<Login />} />}
+							/>
+							<Route
+								path='/register'
+								element={<OnlyUnAuth component={<Register />} />}
+							/>
+							<Route
+								path='/forgot-password'
+								element={<OnlyUnAuth component={<ForgotPassword />} />}
+							/>
+							<Route
+								path='/reset-password'
+								element={<OnlyUnAuth component={<ResetPassword />} />}
+							/>
+							<Route
+								path='/profile'
+								element={<OnlyAuth component={<Profile />} />}>
+								<Route
+									index
+									element={<OnlyAuth component={<ProfileEditor />} />}
+								/>
+								<Route
+									path='orders'
+									element={<OnlyAuth component={<Orders />} />}
+								/>
+								<Route
+									path='*'
+									element={
+										<p className='text text_type_main-large'>404 Not Found</p>
+									}
+								/>
+							</Route>
+						</Route>
+						<Route
+							path='*'
+							element={
+								<p className='text text_type_main-large'>404 Not Found</p>
+							}
+						/>
+					</Routes>
+				</div>
 			)}
-		</div>
+		</>
 	);
 };

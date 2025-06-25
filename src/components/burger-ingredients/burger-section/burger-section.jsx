@@ -8,8 +8,10 @@ import {
 	getBun,
 	getConstructorIngredients,
 } from '../../../services/constructor/reducer';
+import { Link, useLocation } from 'react-router-dom';
 
 const BurgerSection = ({ name, ingredients }) => {
+	const location = useLocation();
 	const dispatch = useDispatch();
 	const constructorBun = useSelector(getBun);
 	const constructorIngredients = useSelector(getConstructorIngredients);
@@ -41,12 +43,16 @@ const BurgerSection = ({ name, ingredients }) => {
 			<h1 className={styles.title}>{name}</h1>
 			{ingredients.map((item) => {
 				return (
-					<Ingredient
+					<Link
 						key={item._id}
-						item={item}
-						count={counters[item._id]}
-						onClick={() => dispatch(setCurrentItem(item))}
-					/>
+						to={`/ingredients/${item._id}`}
+						state={{ backgroundLocation: location }}>
+						<Ingredient
+							item={item}
+							count={counters[item._id]}
+							onClick={() => dispatch(setCurrentItem(item))}
+						/>
+					</Link>
 				);
 			})}
 		</div>

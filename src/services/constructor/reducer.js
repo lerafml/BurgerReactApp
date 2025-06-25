@@ -5,6 +5,7 @@ const initialState = {
 	bun: null,
 	ingredients: [],
 	order: null,
+	orderPending: false,
 	error: false,
 };
 export const constructorSlice = createSlice({
@@ -44,6 +45,7 @@ export const constructorSlice = createSlice({
 	},
 	selectors: {
 		getOrder: (state) => state.order,
+		getOrderPending: (state) => state.orderPending,
 		getBun: (state) => state.bun,
 		getConstructorIngredients: (state) => state.ingredients,
 		getTotalPrice: createSelector(
@@ -64,13 +66,16 @@ export const constructorSlice = createSlice({
 			.addCase(makeOrder.pending, (state) => {
 				state.order = null;
 				state.error = null;
+				state.orderPending = true;
 			})
 			.addCase(makeOrder.fulfilled, (state, action) => {
 				state.order = action.payload.order.number;
 				state.error = null;
+				state.orderPending = false;
 			})
 			.addCase(makeOrder.rejected, (state, action) => {
 				state.order = null;
+				state.orderPending = false;
 				state.error = action.error?.message;
 			});
 	},
@@ -83,5 +88,10 @@ export const {
 	moveIngredient,
 	removeIngredient,
 } = constructorSlice.actions;
-export const { getOrder, getBun, getConstructorIngredients, getTotalPrice } =
-	constructorSlice.selectors;
+export const {
+	getOrder,
+	getBun,
+	getConstructorIngredients,
+	getTotalPrice,
+	getOrderPending,
+} = constructorSlice.selectors;
