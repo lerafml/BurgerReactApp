@@ -1,15 +1,23 @@
 import React from 'react';
 import styles from './ingredient.module.css';
-import { ingredientPropType } from '@utils/prop-types.js';
 import {
 	Counter,
 	CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import IngredientImage from '@components/burger-ingredients/ingredient-image/ingredient-image';
-import PropTypes from 'prop-types';
+import IngredientImage from '@/components/burger-ingredients/ingredient-image/ingredient-image';
 import { useDrag } from 'react-dnd';
+import { IIngredient } from '@/utils/types';
 
-const Ingredient = ({ item, count, onClick }) => {
+interface IngredientProps {
+	item: IIngredient;
+	count: number;
+	onClick: (item: IIngredient) => void;
+}
+const Ingredient = ({
+	item,
+	count,
+	onClick,
+}: IngredientProps): React.JSX.Element => {
 	const [, ref] = useDrag({
 		type: 'ingredient',
 		item: { item },
@@ -20,7 +28,7 @@ const Ingredient = ({ item, count, onClick }) => {
 			ref={ref}
 			className={styles.ingredient}
 			role='button'
-			tabIndex='0'
+			tabIndex={0}
 			onClick={() => {
 				onClick(item);
 			}}
@@ -40,12 +48,6 @@ const Ingredient = ({ item, count, onClick }) => {
 			</p>
 		</section>
 	);
-};
-
-Ingredient.propTypes = {
-	item: ingredientPropType.isRequired,
-	count: PropTypes.number.isRequired,
-	onClick: PropTypes.func.isRequired,
 };
 
 export default Ingredient;

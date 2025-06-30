@@ -9,9 +9,10 @@ import {
 import { getUser } from '../../services/user/reducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUserData } from '../../services/user/actions';
+import { IUser } from '@/utils/types';
 
-export const ProfileEditor = () => {
-	const user = useSelector(getUser);
+export const ProfileEditor = (): React.JSX.Element => {
+	const user: IUser = useSelector(getUser);
 	const dispatch = useDispatch();
 	const [userName, setUserName] = useState(user.name);
 	const [email, setEmail] = useState(user.email);
@@ -25,7 +26,7 @@ export const ProfileEditor = () => {
 		setIsEdited(false);
 	};
 
-	const onSubmit = (e) => {
+	const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		dispatch(updateUserData({ email: email, password: psw, name: userName }));
 	};
@@ -50,8 +51,7 @@ export const ProfileEditor = () => {
 			<EmailInput
 				name={'email'}
 				value={email}
-				isIcon={false}
-				icon='EditIcon'
+				isIcon={true}
 				extraClass='mt-6'
 				onChange={(e) => {
 					setEmail(e.target.value);

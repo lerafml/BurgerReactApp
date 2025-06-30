@@ -1,3 +1,15 @@
+import {
+	IAuthUser,
+	IGetUserData,
+	IIngredient,
+	IMessageData,
+	IOrder,
+	IRefreshTokenData,
+	IRegisterData,
+	IRegisterUser,
+	IResetPassword,
+} from './types';
+
 const BASE_URL = 'https://norma.nomoreparties.space/api';
 const apiConfig = {
 	baseUrl: `${BASE_URL}/ingredients`,
@@ -14,43 +26,49 @@ const apiConfig = {
 	},
 	headersAuth: {
 		'Content-Type': 'application/json',
-		authorization: localStorage.getItem('accessToken'),
+		authorization: localStorage.getItem('accessToken') || '',
 	},
 };
 
-const checkReponse = (res) => {
+const checkReponse = <T>(res: Response): Promise<T> => {
 	return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 };
 
-export const getIngredients = () => {
+export const getIngredients = (): Promise<IIngredient[]> => {
 	return fetch(`${apiConfig.baseUrl}`, {
 		headers: apiConfig.headers,
 	})
-		.then(checkReponse)
+		.then(checkReponse<IIngredient[]>)
 		.catch((error) => {
 			return Promise.reject(`Ошибка ${error.message}`);
 		});
 };
 
-export const sendOrder = (ids) => {
+export const sendOrder = (ids: {
+	ingredients: Array<string>;
+}): Promise<IOrder> => {
 	return fetch(`${apiConfig.orderUrl}`, {
 		method: 'POST',
 		headers: apiConfig.headersAuth,
 		body: JSON.stringify({ ingredients: ids }),
 	})
-		.then(checkReponse)
+		.then(checkReponse<IOrder>)
 		.catch((error) => {
 			return Promise.reject(`Ошибка ${error.message}`);
 		});
 };
 
-export const registerUser = ({ email, password, name }) => {
+export const registerUser = ({
+	email,
+	password,
+	name,
+}: IRegisterUser): Promise<IRegisterData> => {
 	return fetch(`${apiConfig.registerUrl}`, {
 		method: 'POST',
 		headers: apiConfig.headers,
 		body: JSON.stringify({ email: email, password: password, name: name }),
 	})
-		.then(checkReponse)
+		.then(checkReponse<IRegisterData>)
 		.then((refreshData) => {
 			if (!refreshData.success) {
 				return Promise.reject(refreshData);
@@ -64,13 +82,16 @@ export const registerUser = ({ email, password, name }) => {
 		});
 };
 
-export const authorizeUser = ({ email, password }) => {
+export const authorizeUser = ({
+	email,
+	password,
+}: IAuthUser): Promise<IRegisterData> => {
 	return fetch(`${apiConfig.loginUrl}`, {
 		method: 'POST',
 		headers: apiConfig.headers,
 		body: JSON.stringify({ email: email, password: password }),
 	})
-		.then(checkReponse)
+		.then(checkReponse<IRegisterData>)
 		.then((refreshData) => {
 			if (!refreshData.success) {
 				return Promise.reject(refreshData);
@@ -84,13 +105,13 @@ export const authorizeUser = ({ email, password }) => {
 		});
 };
 
-export const refreshToken = () => {
+export const refreshToken = (): Promise<IRefreshTokenData> => {
 	return fetch(`${apiConfig.tokenUrl}`, {
 		method: 'POST',
 		headers: apiConfig.headers,
 		body: JSON.stringify({ token: localStorage.getItem('refreshToken') }),
 	})
-		.then(checkReponse)
+		.then(checkReponse<IRefreshTokenData>)
 		.then((refreshData) => {
 			if (!refreshData.success) {
 				return Promise.reject(refreshData);
@@ -104,24 +125,25 @@ export const refreshToken = () => {
 		});
 };
 
-export const logoutUser = () => {
+export const logoutUser = (): Promise<IMessageData> => {
 	return fetch(`${apiConfig.logoutUrl}`, {
 		method: 'POST',
 		headers: apiConfig.headers,
 		body: JSON.stringify({ token: localStorage.getItem('refreshToken') }),
 	})
-		.then(checkReponse)
-		.then(() => {
+		.then(checkReponse<IMessageData>)
+		.then((data) => {
 			localStorage.removeItem('refreshToken');
 			localStorage.removeItem('accessToken');
+			return data;
 		})
 		.catch((error) => {
 			return Promise.reject(`Ошибка ${error.message}`);
 		});
 };
 
-export const getUser = () => {
-	return fetchWithRefresh(`${apiConfig.authUrl}`, {
+export const getUser = (): Promise<IGetUserData> => {
+	return fetchWithRefresh<IGetUserData>(`${apiConfig.authUrl}`, {
 		method: 'GET',
 		headers: apiConfig.headersAuth,
 	}).catch((error) => {
@@ -129,48 +151,56 @@ export const getUser = () => {
 	});
 };
 
-export const updateUser = ({ email, password, name }) => {
-	return fetchWithRefresh(`${apiConfig.authUrl}`, {
+export const updateUser = ({
+	email,
+	password,
+	name,
+}: IRegisterUser): Promise<IGetUserData> => {
+	return fetchWithRefresh<IGetUserData>(`${apiConfig.authUrl}`, {
 		method: 'PATCH',
 		headers: apiConfig.headersAuth,
 		body: JSON.stringify({ email: email, password: password, name: name }),
-	})
-		.then(checkReponse)
-		.catch((error) => {
-			return Promise.reject(`Ошибка ${error.message}`);
-		});
+	}).catch((error) => {
+		return Promise.reject(`Ошибка ${error.message}`);
+	});
 };
 
-export const resetPassword = (mail) => {
+export const resetPassword = (mail: string): Promise<IMessageData> => {
 	return fetch(`${apiConfig.pswResetUrl}`, {
 		method: 'POST',
 		headers: apiConfig.headers,
 		body: JSON.stringify({ email: mail }),
 	})
-		.then(checkReponse)
+		.then(checkReponse<IMessageData>)
 		.catch((error) => {
 			return Promise.reject(`Ошибка ${error.message}`);
 		});
 };
 
-export const resetPasswordConfirm = ({ password, token }) => {
+export const resetPasswordConfirm = ({
+	password,
+	token,
+}: IResetPassword): Promise<IMessageData> => {
 	return fetch(`${apiConfig.resetUrl}`, {
 		method: 'POST',
 		headers: apiConfig.headers,
 		body: JSON.stringify({ password: password, token: token }),
 	})
-		.then(checkReponse)
+		.then(checkReponse<IMessageData>)
 		.catch((error) => {
 			return Promise.reject(`Ошибка ${error.message}`);
 		});
 };
 
-export const fetchWithRefresh = async (url, options) => {
+export const fetchWithRefresh = async <T>(
+	url: string,
+	options: RequestInit & { headers: { authorization?: string } }
+): Promise<T> => {
 	try {
 		const res = await fetch(url, options);
-		return await checkReponse(res);
+		return await checkReponse<T>(res);
 	} catch (err) {
-		if (err.message === 'jwt expired') {
+		if (err instanceof Error && err.message === 'jwt expired') {
 			const refreshData = await refreshToken(); //обновляем токен
 			options.headers.authorization = refreshData.accessToken;
 			const res = await fetch(url, options); //повторяем запрос

@@ -4,20 +4,31 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerSection from '@components/burger-ingredients/burger-section/burger-section';
 import { useSelector } from 'react-redux';
 import { getIngredientsByType } from '../../services/ingredients/reducer';
+import { IIngredient } from '@/utils/types';
 
-export const BurgerIngredients = () => {
-	const ingredients = useSelector(getIngredientsByType);
+export const BurgerIngredients = (): React.JSX.Element => {
+	const ingredients: Map<string, IIngredient[]> =
+		useSelector(getIngredientsByType);
 	const [activeTab, setActiveTab] = useState({
 		bun: true,
 		main: false,
 		sauce: false,
 	});
-	const navRef = useRef();
-	const bunsRef = useRef();
-	const mainsRef = useRef();
-	const saucesRef = useRef();
+	const navRef = useRef<HTMLElement | null>(null);
+	const bunsRef = useRef<HTMLElement | null>(null);
+	const mainsRef = useRef<HTMLElement | null>(null);
+	const saucesRef = useRef<HTMLElement | null>(null);
 
 	const handleScroll = () => {
+		if (
+			!navRef.current ||
+			!bunsRef.current ||
+			!mainsRef.current ||
+			!saucesRef.current
+		) {
+			return;
+		}
+
 		const navY = navRef.current.getBoundingClientRect().bottom;
 		const bunsY = Math.abs(bunsRef.current.getBoundingClientRect().top - navY);
 		const mainsY = Math.abs(

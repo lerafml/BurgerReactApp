@@ -13,14 +13,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { makeOrder } from '../../../services/constructor/actions';
 import { getUser } from '../../../services/user/reducer';
 import { useNavigate } from 'react-router-dom';
+import { ConstructorIngredient, Ingredient } from '@/utils/types';
 
-const ConstructorTotal = () => {
+const ConstructorTotal = (): React.JSX.Element => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const total = useSelector(getTotalPrice);
-	const bun = useSelector(getBun);
+	const total: number = useSelector(getTotalPrice);
+	const bun: Ingredient = useSelector(getBun);
 	const user = useSelector(getUser);
-	const ingredients = useSelector(getConstructorIngredients);
+	const ingredients: ConstructorIngredient[] = useSelector(
+		getConstructorIngredients
+	);
 	let ids = ingredients.map((ingr) => ingr.item._id);
 	ids = [bun?._id ?? 0, ...ids, bun?._id ?? 0];
 

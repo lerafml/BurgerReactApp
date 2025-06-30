@@ -1,15 +1,19 @@
 import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
 import styles from './modal.module.css';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import ModalOverlay from '@components/modal-overlay/modal-overlay.jsx';
+import ModalOverlay from '@/components/modal-overlay/modal-overlay.js';
 
-const Modal = ({ name, children, onClose }) => {
+interface ModalProps {
+	name?: string;
+	children: React.JSX.Element;
+	onClose: () => void;
+}
+const Modal = ({ name, children, onClose }: ModalProps): React.JSX.Element => {
 	const modalRoot = document.getElementById('modal');
 
 	useEffect(() => {
-		function closeByEscape(e) {
+		function closeByEscape(e: KeyboardEvent) {
 			if (e.key === 'Escape') {
 				onClose();
 			}
@@ -19,16 +23,27 @@ const Modal = ({ name, children, onClose }) => {
 		return () => {
 			document.removeEventListener('keydown', closeByEscape);
 		};
-	}, []);
+	}, [onClose]);
+
+	if (!modalRoot) {
+		return <></>;
+	}
 
 	return ReactDOM.createPortal(
 		<ModalOverlay
-			onClick={(e) => {
-				if (e.target.id === 'overlay') {
+			onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+				const target = e.target as HTMLDivElement;
+				if (target.id === 'overlay') {
+					onClose();
+				}
+			}}
+			onKeyDown={(e: React.KeyboardEvent) => {
+				const target = e.target as HTMLDivElement;
+				if (target.id === 'overlay') {
 					onClose();
 				}
 			}}>
-			<div className={styles.modal} role='button' tabIndex={'0'}>
+			<div className={styles.modal} role='button' tabIndex={0}>
 				<section className={styles.header}>
 					<h1 className='text text_type_main-large'>{name}</h1>
 					<span className={styles.icon}>
@@ -40,12 +55,6 @@ const Modal = ({ name, children, onClose }) => {
 		</ModalOverlay>,
 		modalRoot
 	);
-};
-
-Modal.propTypes = {
-	name: PropTypes.string,
-	children: PropTypes.node.isRequired,
-	onClose: PropTypes.func.isRequired,
 };
 
 export default Modal;

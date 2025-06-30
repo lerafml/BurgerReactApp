@@ -14,9 +14,9 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { Preloader } from '@components/preloader/preloader.jsx';
 
-export const Home = () => {
-	const order = useSelector(getOrder);
-	const isOrderPending = useSelector(getOrderPending);
+export const Home = (): React.JSX.Element => {
+	const order: number = useSelector(getOrder);
+	const isOrderPending: boolean = useSelector(getOrderPending);
 	const dispatch = useDispatch();
 
 	return (
@@ -31,8 +31,10 @@ export const Home = () => {
 					<BurgerConstructor />
 					{isOrderPending && (
 						<Modal onClose={() => {}}>
-							<p className='text text_type_main-medium'>Оформляем заказ...</p>
-							<Preloader />
+							<div>
+								<p className='text text_type_main-medium'>Оформляем заказ...</p>
+								<Preloader />
+							</div>
 						</Modal>
 					)}
 					{order && (

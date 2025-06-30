@@ -1,7 +1,5 @@
 import styles from './burger-section.module.css';
-import { ingredientPropType } from '@utils/prop-types.js';
-import Ingredient from '@components/burger-ingredients/ingredient/ingredient';
-import PropTypes from 'prop-types';
+import Ingredient from '@/components/burger-ingredients/ingredient/ingredient';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentItem } from '../../../services/ingredients/reducer';
 import {
@@ -9,13 +7,27 @@ import {
 	getConstructorIngredients,
 } from '../../../services/constructor/reducer';
 import { Link, useLocation } from 'react-router-dom';
+import { ConstructorIngredient, IIngredient } from '@/utils/types';
 
-const BurgerSection = ({ name, ingredients }) => {
+interface BurgerSectionProps {
+	name: string;
+	ingredients: IIngredient[] | undefined;
+}
+
+const BurgerSection = ({
+	name,
+	ingredients,
+}: BurgerSectionProps): React.JSX.Element => {
 	const location = useLocation();
 	const dispatch = useDispatch();
-	const constructorBun = useSelector(getBun);
-	const constructorIngredients = useSelector(getConstructorIngredients);
-	let counters = {};
+	const constructorBun: IIngredient = useSelector(getBun);
+	const constructorIngredients: ConstructorIngredient[] = useSelector(
+		getConstructorIngredients
+	);
+	const counters: { [key: string]: number } = {};
+
+	if (typeof ingredients === 'undefined') return <></>;
+
 	if (name === 'Булки') {
 		Object.assign(
 			counters,
@@ -57,11 +69,6 @@ const BurgerSection = ({ name, ingredients }) => {
 			})}
 		</div>
 	);
-};
-
-BurgerSection.propTypes = {
-	name: PropTypes.string.isRequired,
-	ingredients: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired,
 };
 
 export default BurgerSection;
