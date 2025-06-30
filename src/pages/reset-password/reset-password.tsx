@@ -8,7 +8,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { resetPasswordConfirm } from '../../utils/api';
 
-export const ResetPassword = () => {
+export const ResetPassword = (): React.JSX.Element => {
 	const navigate = useNavigate();
 	const [psw, setPassword] = useState('');
 	const [code, setCode] = useState('');
@@ -19,7 +19,7 @@ export const ResetPassword = () => {
 		}
 	}, [navigate]);
 
-	const onSubmit = (e) => {
+	const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		resetPasswordConfirm({ password: psw, token: code }).then(() => {
 			localStorage.removeItem('reset');

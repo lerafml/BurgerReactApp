@@ -1,17 +1,17 @@
 import React, { useEffect } from 'react';
-import { AppHeader } from '@components/app-header/app-header.jsx';
+import { AppHeader } from '@/components/app-header/app-header.js';
 import styles from './app.module.css';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
-import { Home } from '../../../src/pages/home/home';
-import { Login } from '../../../src/pages/login/login';
-import { Register } from '../../../src/pages/register/register';
-import { ForgotPassword } from '../../../src/pages/forgot-password/forgot-password';
-import { ResetPassword } from '../../../src/pages/reset-password/reset-password';
-import IngredientDetails from '@components/burger-ingredients/ingredient-details/ingredient-details';
-import Modal from '@components/modal/modal.jsx';
+import { Home } from '../../pages/home/home';
+import { Login } from '../../pages/login/login';
+import { Register } from '../../pages/register/register';
+import { ForgotPassword } from '../../pages/forgot-password/forgot-password';
+import { ResetPassword } from '../../pages/reset-password/reset-password';
+import IngredientDetails from '@/components/burger-ingredients/ingredient-details/ingredient-details';
+import Modal from '@/components/modal/modal.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadIngredients } from '../../services/ingredients/actions';
-import { Preloader } from '@components/preloader/preloader.jsx';
+import { Preloader } from '@/components/preloader/preloader.js';
 import {
 	getAllIngredients,
 	getIngredientsError,
@@ -20,16 +20,17 @@ import {
 import { Profile } from '../../pages/profile/profile';
 import { checkUserAuth } from '../../services/user/actions';
 import { OnlyAuth, OnlyUnAuth } from '../protected-route/protected-route';
-import { ProfileEditor } from '../../components/profile-editor/profile-editor';
-import { Orders } from '../../components/orders/orders';
+import { ProfileEditor } from '../profile-editor/profile-editor';
+import { Orders } from '../orders/order';
+import { IIngredient } from '@/utils/types';
 
-export const App = () => {
-	let location = useLocation();
-	let navigate = useNavigate();
+export const App = (): React.JSX.Element => {
+	const location = useLocation();
+	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const loading = useSelector(getIngredientsLoading);
 	const error = useSelector(getIngredientsError);
-	const ingredients = useSelector(getAllIngredients);
+	const ingredients: IIngredient[] = useSelector(getAllIngredients);
 	const background = location.state && location.state.backgroundLocation;
 
 	useEffect(() => {

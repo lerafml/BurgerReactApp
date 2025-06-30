@@ -1,10 +1,14 @@
 import React from 'react';
-import * as PropTypes from 'prop-types';
 import styles from './ingredients-list.module.css';
-import { constructorIngredientPropType } from '@utils/prop-types.js';
 import { ListItem } from './list-item/list-item';
+import { ConstructorIngredient } from '@/utils/types';
 
-const IngredientsList = ({ ingredients }) => {
+interface IngredientsListProps {
+	ingredients: ConstructorIngredient[];
+}
+const IngredientsList = ({
+	ingredients,
+}: IngredientsListProps): React.JSX.Element => {
 	return (
 		<ul className={styles.list}>
 			{ingredients.map((item, index) => {
@@ -12,11 +16,6 @@ const IngredientsList = ({ ingredients }) => {
 			})}
 		</ul>
 	);
-};
-
-IngredientsList.propTypes = {
-	ingredients: PropTypes.arrayOf(constructorIngredientPropType.isRequired)
-		.isRequired,
 };
 
 export default IngredientsList;

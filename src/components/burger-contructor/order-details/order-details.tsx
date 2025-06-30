@@ -1,9 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styles from './order-details.module.css';
 import done from '../../../images/done.png';
 
-const OrderDetails = ({ id }) => {
+interface OrderDetailsProps {
+	id: number;
+}
+const OrderDetails = ({ id }: OrderDetailsProps): React.JSX.Element => {
 	return (
 		<>
 			<p className='text text_type_digits-large mb-8'>{id}</p>
@@ -17,10 +19,6 @@ const OrderDetails = ({ id }) => {
 			</p>
 		</>
 	);
-};
-
-OrderDetails.propTypes = {
-	id: PropTypes.number.isRequired,
 };
 
 export default OrderDetails;

@@ -4,7 +4,7 @@ import { NavLink, Outlet } from 'react-router-dom';
 import { logout } from '../../services/user/actions';
 import { useDispatch } from 'react-redux';
 
-export const Profile = () => {
+export const Profile = (): React.JSX.Element => {
 	const dispatch = useDispatch();
 
 	return (
