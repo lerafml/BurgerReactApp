@@ -1,7 +1,7 @@
 import {
 	IAuthUser,
+	IGetIngredientsData,
 	IGetUserData,
-	IIngredient,
 	IMessageData,
 	IOrder,
 	IRefreshTokenData,
@@ -34,11 +34,11 @@ const checkReponse = <T>(res: Response): Promise<T> => {
 	return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 };
 
-export const getIngredients = (): Promise<IIngredient[]> => {
+export const getIngredients = (): Promise<IGetIngredientsData> => {
 	return fetch(`${apiConfig.baseUrl}`, {
 		headers: apiConfig.headers,
 	})
-		.then(checkReponse<IIngredient[]>)
+		.then(checkReponse<IGetIngredientsData>)
 		.catch((error) => {
 			return Promise.reject(`Ошибка ${error.message}`);
 		});

@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './profile.module.css';
 import { NavLink, Outlet } from 'react-router-dom';
 import { logout } from '../../services/user/actions';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '@/services/store';
 
 export const Profile = (): React.JSX.Element => {
 	const dispatch = useDispatch();

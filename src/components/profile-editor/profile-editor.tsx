@@ -7,7 +7,7 @@ import {
 	Button,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { getUser } from '../../services/user/reducer';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '@/services/store';
 import { updateUserData } from '../../services/user/actions';
 import { IUser } from '@/utils/types';
 

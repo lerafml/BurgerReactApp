@@ -9,11 +9,11 @@ import {
 	getConstructorIngredients,
 	getTotalPrice,
 } from '../../../services/constructor/reducer';
-import { useDispatch, useSelector } from 'react-redux';
 import { makeOrder } from '../../../services/constructor/actions';
 import { getUser } from '../../../services/user/reducer';
 import { useNavigate } from 'react-router-dom';
 import { ConstructorIngredient, Ingredient } from '@/utils/types';
+import { useDispatch, useSelector } from '@/services/store';
 
 const ConstructorTotal = (): React.JSX.Element => {
 	const dispatch = useDispatch();

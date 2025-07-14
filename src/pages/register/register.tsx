@@ -7,7 +7,7 @@ import {
 	Input,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '@/services/store';
 import { register } from '../../services/user/actions';
 
 export const Register = (): React.JSX.Element => {

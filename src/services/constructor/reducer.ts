@@ -1,19 +1,33 @@
-import { createSelector, createSlice, nanoid } from '@reduxjs/toolkit';
-import { makeOrder } from '../constructor/actions';
+import {
+	createSelector,
+	createSlice,
+	nanoid,
+	PayloadAction,
+} from '@reduxjs/toolkit';
+import { makeOrder } from './actions';
+import { IIngredient, ConstructorIngredient } from '@/utils/types';
 
-const initialState = {
+interface IConstructorState {
+	bun: IIngredient | null;
+	ingredients: ConstructorIngredient[];
+	order: number | null;
+	orderPending: boolean;
+	error: string | null;
+}
+
+const initialState: IConstructorState = {
 	bun: null,
 	ingredients: [],
 	order: null,
 	orderPending: false,
-	error: false,
+	error: null,
 };
 export const constructorSlice = createSlice({
 	name: 'ingredientsConstructor',
 	initialState,
 	reducers: {
 		addIngredient: {
-			reducer: (state, action) => {
+			reducer: (state, action: PayloadAction<ConstructorIngredient>) => {
 				if (action.payload.item.type == 'bun') {
 					state.bun = action.payload.item;
 				} else {
@@ -27,12 +41,12 @@ export const constructorSlice = createSlice({
 				};
 			},
 		},
-		removeIngredient: (state, action) => {
+		removeIngredient: (state, action: PayloadAction<string>) => {
 			state.ingredients = state.ingredients.filter(
 				(i) => i.key !== action.payload
 			);
 		},
-		moveIngredient: (state, action) => {
+		moveIngredient: (state, action: PayloadAction<number[]>) => {
 			const draggable = state.ingredients[action.payload[0]];
 			const newIngredients = [...state.ingredients];
 			newIngredients.splice(action.payload[0], 1);
@@ -50,9 +64,8 @@ export const constructorSlice = createSlice({
 		getConstructorIngredients: (state) => state.ingredients,
 		getTotalPrice: createSelector(
 			[
-				(state) => constructorSlice.getSelectors().getBun(state),
-				(state) =>
-					constructorSlice.getSelectors().getConstructorIngredients(state),
+				(state: IConstructorState) => state.bun,
+				(state: IConstructorState) => state.ingredients,
 			],
 			(bun, ingredients) =>
 				(bun?.price ?? 0) * 2 +
@@ -76,18 +89,13 @@ export const constructorSlice = createSlice({
 			.addCase(makeOrder.rejected, (state, action) => {
 				state.order = null;
 				state.orderPending = false;
-				state.error = action.error?.message;
+				state.error = action.error?.message ?? 'Ошибка';
 			});
 	},
 });
 
-export const {
-	addIngredient,
-	submitOrder,
-	exitOrder,
-	moveIngredient,
-	removeIngredient,
-} = constructorSlice.actions;
+export const { addIngredient, exitOrder, moveIngredient, removeIngredient } =
+	constructorSlice.actions;
 export const {
 	getOrder,
 	getBun,

@@ -1,6 +1,5 @@
 import styles from './burger-section.module.css';
 import Ingredient from '@/components/burger-ingredients/ingredient/ingredient';
-import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentItem } from '../../../services/ingredients/reducer';
 import {
 	getBun,
@@ -8,6 +7,7 @@ import {
 } from '../../../services/constructor/reducer';
 import { Link, useLocation } from 'react-router-dom';
 import { ConstructorIngredient, IIngredient } from '@/utils/types';
+import { useDispatch, useSelector } from '@/services/store';
 
 interface BurgerSectionProps {
 	name: string;

@@ -47,6 +47,11 @@ export interface IGetUserData {
 	user: IUser;
 }
 
+export interface IGetIngredientsData {
+	success: boolean;
+	data: IIngredient[];
+}
+
 export interface IOrder {
 	name: string;
 	order: { number: number };

@@ -6,7 +6,7 @@ import {
 	Button,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '@/services/store';
 import { authUser } from '../../services/user/actions';
 
 export const Login = (): React.JSX.Element => {

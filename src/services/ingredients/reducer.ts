@@ -1,7 +1,15 @@
-import { createSelector, createSlice } from '@reduxjs/toolkit';
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { loadIngredients } from './actions';
+import { IIngredient } from '@/utils/types';
 
-const initialState = {
+interface IIngredientsState {
+	ingredients: IIngredient[];
+	loading: boolean;
+	error: string | null;
+	currentItem: IIngredient | null;
+}
+
+const initialState: IIngredientsState = {
 	ingredients: [],
 	loading: false,
 	error: null,
@@ -11,7 +19,7 @@ export const ingredientsSlice = createSlice({
 	name: 'ingredients',
 	initialState,
 	reducers: {
-		setCurrentItem: (state, action) => {
+		setCurrentItem: (state, action: PayloadAction<IIngredient>) => {
 			state.currentItem = action.payload;
 		},
 		revokeCurrentItem: (state) => {
@@ -23,7 +31,7 @@ export const ingredientsSlice = createSlice({
 		getIngredientsError: (state) => state.error,
 		getAllIngredients: (state) => state.ingredients,
 		getIngredientsByType: createSelector(
-			(state) => ingredientsSlice.getSelectors().getAllIngredients(state),
+			(state: IIngredientsState) => state.ingredients,
 			(ingredients) => Map.groupBy(ingredients, (ingr) => ingr.type)
 		),
 		getCurrentItem: (state) => state.currentItem,
@@ -41,7 +49,7 @@ export const ingredientsSlice = createSlice({
 			})
 			.addCase(loadIngredients.rejected, (state, action) => {
 				state.loading = false;
-				state.error = action.error?.message;
+				state.error = action.error?.message ?? 'Ошибка';
 			});
 	},
 });

@@ -4,7 +4,7 @@ import IngredientImage from '@/components/burger-ingredients/ingredient-image/in
 import ListItem from '@components/burger-ingredients/ingredient-details/list-item/list-item';
 import { useParams } from 'react-router-dom';
 import { getAllIngredients } from '../../../services/ingredients/reducer';
-import { useSelector } from 'react-redux';
+import { useSelector } from '@/services/store';
 import { IIngredient } from '@/utils/types';
 
 const IngredientDetails = (): React.JSX.Element => {

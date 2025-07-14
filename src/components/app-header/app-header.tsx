@@ -5,10 +5,10 @@ import {
 	ProfileIcon,
 	Logo,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useSelector } from 'react-redux';
 import { Outlet, NavLink } from 'react-router-dom';
 import { getUser } from '../../services/user/reducer';
 import { IUser } from '@/utils/types';
+import { useSelector } from '@/services/store';
 
 export const AppHeader = (): React.JSX.Element => {
 	const user: IUser = useSelector(getUser);

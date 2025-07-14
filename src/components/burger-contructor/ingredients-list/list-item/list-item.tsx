@@ -5,12 +5,12 @@ import {
 	ConstructorElement,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrag, useDrop } from 'react-dnd';
-import { useDispatch } from 'react-redux';
 import {
 	moveIngredient,
 	removeIngredient,
 } from '../../../../services/constructor/reducer';
 import { ConstructorIngredient } from '@/utils/types';
+import { useDispatch } from '@/services/store';
 
 interface ListItemProps {
 	item: ConstructorIngredient;
