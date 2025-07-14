@@ -21,7 +21,6 @@ import { checkUserAuth } from '../../services/user/actions';
 import { OnlyAuth, OnlyUnAuth } from '../protected-route/protected-route';
 import { ProfileEditor } from '../profile-editor/profile-editor';
 import { Orders } from '../orders/order';
-import { IIngredient } from '@/utils/types';
 import { useDispatch, useSelector } from '@/services/store';
 
 export const App = (): React.JSX.Element => {
@@ -30,7 +29,7 @@ export const App = (): React.JSX.Element => {
 	const dispatch = useDispatch();
 	const loading = useSelector(getIngredientsLoading);
 	const error = useSelector(getIngredientsError);
-	const ingredients: IIngredient[] = useSelector(getAllIngredients);
+	const ingredients = useSelector(getAllIngredients);
 	const background = location.state && location.state.backgroundLocation;
 
 	useEffect(() => {

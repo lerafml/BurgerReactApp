@@ -4,11 +4,9 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerSection from '@components/burger-ingredients/burger-section/burger-section';
 import { useSelector } from '@/services/store';
 import { getIngredientsByType } from '../../services/ingredients/reducer';
-import { IIngredient } from '@/utils/types';
 
 export const BurgerIngredients = (): React.JSX.Element => {
-	const ingredients: Map<string, IIngredient[]> =
-		useSelector(getIngredientsByType);
+	const ingredients = useSelector(getIngredientsByType);
 	const [activeTab, setActiveTab] = useState({
 		bun: true,
 		main: false,

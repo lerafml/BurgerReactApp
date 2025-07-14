@@ -52,7 +52,6 @@ export const userSlice = createSlice({
 				state.error = action.error?.message ?? 'Ошибка';
 			})
 			.addCase(updateUserData.fulfilled, (state, action) => {
-				console.log(action.payload);
 				state.user = action.payload.user;
 			});
 	},

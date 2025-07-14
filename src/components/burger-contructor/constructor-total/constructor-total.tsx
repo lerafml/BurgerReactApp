@@ -12,20 +12,17 @@ import {
 import { makeOrder } from '../../../services/constructor/actions';
 import { getUser } from '../../../services/user/reducer';
 import { useNavigate } from 'react-router-dom';
-import { ConstructorIngredient, Ingredient } from '@/utils/types';
 import { useDispatch, useSelector } from '@/services/store';
 
 const ConstructorTotal = (): React.JSX.Element => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const total: number = useSelector(getTotalPrice);
-	const bun: Ingredient = useSelector(getBun);
+	const total = useSelector(getTotalPrice);
+	const bun = useSelector(getBun);
 	const user = useSelector(getUser);
-	const ingredients: ConstructorIngredient[] = useSelector(
-		getConstructorIngredients
-	);
+	const ingredients = useSelector(getConstructorIngredients);
 	let ids = ingredients.map((ingr) => ingr.item._id);
-	ids = [bun?._id ?? 0, ...ids, bun?._id ?? 0];
+	ids = [bun?._id ?? '', ...ids, bun?._id ?? ''];
 
 	const onOrderClick = () => {
 		if (user != null) {

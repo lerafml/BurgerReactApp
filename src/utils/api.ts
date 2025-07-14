@@ -44,9 +44,7 @@ export const getIngredients = (): Promise<IGetIngredientsData> => {
 		});
 };
 
-export const sendOrder = (ids: {
-	ingredients: Array<string>;
-}): Promise<IOrder> => {
+export const sendOrder = (ids: Array<string>): Promise<IOrder> => {
 	return fetch(`${apiConfig.orderUrl}`, {
 		method: 'POST',
 		headers: apiConfig.headersAuth,
@@ -151,15 +149,11 @@ export const getUser = (): Promise<IGetUserData> => {
 	});
 };
 
-export const updateUser = ({
-	email,
-	password,
-	name,
-}: IRegisterUser): Promise<IGetUserData> => {
+export const updateUser = (data: IRegisterUser): Promise<IGetUserData> => {
 	return fetchWithRefresh<IGetUserData>(`${apiConfig.authUrl}`, {
 		method: 'PATCH',
 		headers: apiConfig.headersAuth,
-		body: JSON.stringify({ email: email, password: password, name: name }),
+		body: JSON.stringify(data),
 	}).catch((error) => {
 		return Promise.reject(`Ошибка ${error.message}`);
 	});

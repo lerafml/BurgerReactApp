@@ -5,11 +5,10 @@ import ListItem from '@components/burger-ingredients/ingredient-details/list-ite
 import { useParams } from 'react-router-dom';
 import { getAllIngredients } from '../../../services/ingredients/reducer';
 import { useSelector } from '@/services/store';
-import { IIngredient } from '@/utils/types';
 
 const IngredientDetails = (): React.JSX.Element => {
 	const params = useParams();
-	const ingredients: IIngredient[] = useSelector(getAllIngredients);
+	const ingredients = useSelector(getAllIngredients);
 	const item = ingredients.filter((ingr) => ingr._id === params.id)[0];
 
 	return (

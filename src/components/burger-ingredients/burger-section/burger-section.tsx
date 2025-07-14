@@ -6,7 +6,7 @@ import {
 	getConstructorIngredients,
 } from '../../../services/constructor/reducer';
 import { Link, useLocation } from 'react-router-dom';
-import { ConstructorIngredient, IIngredient } from '@/utils/types';
+import { IIngredient } from '@/utils/types';
 import { useDispatch, useSelector } from '@/services/store';
 
 interface BurgerSectionProps {
@@ -20,10 +20,8 @@ const BurgerSection = ({
 }: BurgerSectionProps): React.JSX.Element => {
 	const location = useLocation();
 	const dispatch = useDispatch();
-	const constructorBun: IIngredient = useSelector(getBun);
-	const constructorIngredients: ConstructorIngredient[] = useSelector(
-		getConstructorIngredients
-	);
+	const constructorBun = useSelector(getBun);
+	const constructorIngredients = useSelector(getConstructorIngredients);
 	const counters: { [key: string]: number } = {};
 
 	if (typeof ingredients === 'undefined') return <></>;
