@@ -3,7 +3,7 @@ import { getIsAuthChecked, getUser } from '../../services/user/reducer';
 import { Navigate, useLocation } from 'react-router-dom';
 
 interface ProtectedProps {
-	onlyUnAuth: boolean;
+	onlyUnAuth?: boolean;
 	component: React.JSX.Element;
 }
 const Protected = ({

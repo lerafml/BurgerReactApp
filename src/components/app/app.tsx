@@ -22,6 +22,7 @@ import { OnlyAuth, OnlyUnAuth } from '../protected-route/protected-route';
 import { ProfileEditor } from '../profile-editor/profile-editor';
 import { Orders } from '../orders/order';
 import { useDispatch, useSelector } from '@/services/store';
+import { Feed } from '@/pages/feed/feed';
 
 export const App = (): React.JSX.Element => {
 	const location = useLocation();
@@ -102,6 +103,7 @@ export const App = (): React.JSX.Element => {
 									}
 								/>
 							</Route>
+							<Route path='feed' element={<Feed />} />
 						</Route>
 						<Route
 							path='*'

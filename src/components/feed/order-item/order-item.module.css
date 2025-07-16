@@ -1,0 +1,16 @@
+.main {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	margin: 0 8px;
+	padding: 24px;
+	background-color: var(--background-element);
+	border-radius: var(--common-border-radius-s);
+}
+
+section {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}

@@ -1,0 +1,52 @@
+.main {
+	display: flex;
+	justify-content: space-between;
+	width: 1240px;
+	height: 100%;
+	margin: 0 auto;
+	overflow: hidden;
+}
+
+.header {
+	align-self: flex-start;
+	margin: 20px 160px;
+}
+
+.feed {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	max-width: 50%;
+	max-height: 95%;
+	overflow-y: scroll;
+}
+
+.feed_info {
+	display: flex;
+	flex-direction: column;
+	gap: 30px;
+}
+
+.feed_info section {
+	display: flex;
+	flex-direction: column;
+}
+
+.status {
+	flex-direction: row !important;
+	gap: 36px;
+}
+
+.ready {
+	color: lightseagreen;
+}
+
+article {
+	width: 100%;
+}
+
+article > div {
+	display: flex;
+	flex-flow: column wrap;
+	height: 130px;
+}

@@ -67,3 +67,20 @@ export interface IResetPassword {
 	password: string;
 	token: string;
 }
+
+export interface IOrderDetails {
+	ingredients: Array<string>;
+	_id: string;
+	status: 'done' | 'created' | 'pending';
+	number: number;
+	createdAt: string;
+	updatedAt: string;
+	name: string;
+}
+
+export interface IGetFeedData {
+	success: boolean;
+	orders: IOrderDetails[];
+	total: number;
+	totalToday: number;
+}
