@@ -1,0 +1,29 @@
+.wrapper {
+	max-width: 600px;
+	text-align: left;
+}
+
+.number {
+	text-align: center !important;
+}
+
+.status {
+	color: lightseagreen;
+}
+
+.ingredients {
+	max-height: 200px;
+	margin-bottom: 40px;
+	overflow-y: scroll;
+}
+
+.footer {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.name {
+	max-height: 100px;
+	overflow: auto;
+}

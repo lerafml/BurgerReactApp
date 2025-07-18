@@ -1,0 +1,27 @@
+.wrapper {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	gap: 16px;
+	margin-bottom: 16px;
+}
+
+.gradient {
+	width: 70px;
+	margin-right: 20px;
+	padding: 2px;
+	background: linear-gradient(to right, #801ab2, #4c4cff);
+	border-radius: 50%;
+}
+
+.span {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	width: 70px;
+	height: 70px;
+	overflow: hidden;
+	background-color: var(--background-alt);
+	border-radius: 50%;
+}

@@ -1,6 +1,7 @@
 import {
 	IAuthUser,
 	IGetIngredientsData,
+	IGetOrderData,
 	IGetUserData,
 	IMessageData,
 	IOrder,
@@ -10,8 +11,9 @@ import {
 	IResetPassword,
 } from './types';
 
-export const PROFILE_ORDERS_URL = 'wss://norma.nomoreparties.space/orders';
-export const FEED_URL = `${PROFILE_ORDERS_URL}/all`;
+const WS_URL = 'wss://norma.nomoreparties.space/orders';
+export const PROFILE_ORDERS_URL = `${WS_URL}?token=${localStorage.getItem('accessToken')?.replace('Bearer ', '')}`;
+export const FEED_URL = `${WS_URL}/all`;
 const BASE_URL = 'https://norma.nomoreparties.space/api';
 const apiConfig = {
 	baseUrl: `${BASE_URL}/ingredients`,
@@ -23,6 +25,7 @@ const apiConfig = {
 	logoutUrl: `${BASE_URL}/auth/logout`,
 	tokenUrl: `${BASE_URL}/auth/token`,
 	authUrl: `${BASE_URL}/auth/user`,
+	getOrderUrl: `${BASE_URL}/orders`,
 	headers: {
 		'Content-Type': 'application/json',
 	},
@@ -186,6 +189,15 @@ export const resetPasswordConfirm = ({
 		.catch((error) => {
 			return Promise.reject(`Ошибка ${error.message}`);
 		});
+};
+
+export const getOrder = (number: number): Promise<IGetOrderData> => {
+	return fetchWithRefresh<IGetOrderData>(`${apiConfig.getOrderUrl}/${number}`, {
+		method: 'GET',
+		headers: apiConfig.headersAuth,
+	}).catch((error) => {
+		return Promise.reject(`Ошибка ${error.message}`);
+	});
 };
 
 export const fetchWithRefresh = async <T>(

@@ -10,9 +10,11 @@ import { FEED_URL } from '@/utils/api';
 import { useEffect } from 'react';
 import styles from './feed.module.css';
 import { OrderItem } from '@/components/feed/order-item/order-item';
+import { Link, useLocation } from 'react-router-dom';
 
 export const Feed = (): React.JSX.Element => {
 	const dispatch = useDispatch();
+	const location = useLocation();
 	const orders = useSelector(getFeed);
 	const total = useSelector(getFeedTotal);
 	const totalToday = useSelector(getFeedTotalToday);
@@ -33,7 +35,12 @@ export const Feed = (): React.JSX.Element => {
 			<main className={styles.main}>
 				<div className={styles.feed}>
 					{orders.map((order) => (
-						<OrderItem key={order._id} order={order} status={false} />
+						<Link
+							key={order._id}
+							to={`/feed/${order.number}`}
+							state={{ backgroundLocation: location }}>
+							<OrderItem order={order} />
+						</Link>
 					))}
 				</div>
 				<div className={styles.feed_info}>

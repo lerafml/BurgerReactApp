@@ -94,6 +94,12 @@ export const constructorSlice = createSlice({
 	},
 });
 
+export type ConstructorActions =
+	| ReturnType<typeof addIngredient>
+	| ReturnType<typeof removeIngredient>
+	| ReturnType<typeof moveIngredient>
+	| ReturnType<typeof exitOrder>;
+
 export const { addIngredient, exitOrder, moveIngredient, removeIngredient } =
 	constructorSlice.actions;
 export const {

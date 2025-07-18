@@ -23,6 +23,7 @@ import { ProfileEditor } from '../profile-editor/profile-editor';
 import { Orders } from '../orders/order';
 import { useDispatch, useSelector } from '@/services/store';
 import { Feed } from '@/pages/feed/feed';
+import { OrderInfo } from '../feed/order-info/order-info';
 
 export const App = (): React.JSX.Element => {
 	const location = useLocation();
@@ -51,6 +52,22 @@ export const App = (): React.JSX.Element => {
 								element={
 									<Modal name='Детали ингредиента' onClose={() => navigate(-1)}>
 										<IngredientDetails />
+									</Modal>
+								}
+							/>
+							<Route
+								path='/feed/:number'
+								element={
+									<Modal name='' onClose={() => navigate(-1)}>
+										<OrderInfo />
+									</Modal>
+								}
+							/>
+							<Route
+								path='/profile/orders/:number'
+								element={
+									<Modal name='' onClose={() => navigate(-1)}>
+										<OrderInfo />
 									</Modal>
 								}
 							/>
@@ -103,7 +120,25 @@ export const App = (): React.JSX.Element => {
 									}
 								/>
 							</Route>
-							<Route path='feed' element={<Feed />} />
+							<Route path='/feed' element={<Feed />} />
+							<Route
+								path='/feed/:number'
+								element={
+									<div
+										className={`${styles.details} text text_type_main-medium`}>
+										<OrderInfo />
+									</div>
+								}
+							/>
+							<Route
+								path='/profile/orders/:number'
+								element={
+									<div
+										className={`${styles.details} text text_type_main-medium`}>
+										<OrderInfo />
+									</div>
+								}
+							/>
 						</Route>
 						<Route
 							path='*'

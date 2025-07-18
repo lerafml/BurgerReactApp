@@ -1,4 +1,4 @@
-import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSelector, createSlice } from '@reduxjs/toolkit';
 import { loadIngredients } from './actions';
 import { IIngredient } from '@/utils/types';
 
@@ -18,14 +18,7 @@ const initialState: IIngredientsState = {
 export const ingredientsSlice = createSlice({
 	name: 'ingredients',
 	initialState,
-	reducers: {
-		setCurrentItem: (state, action: PayloadAction<IIngredient>) => {
-			state.currentItem = action.payload;
-		},
-		revokeCurrentItem: (state) => {
-			state.currentItem = null;
-		},
-	},
+	reducers: {},
 	selectors: {
 		getIngredientsLoading: (state) => state.loading,
 		getIngredientsError: (state) => state.error,
@@ -61,5 +54,3 @@ export const {
 	getIngredientsByType,
 	getCurrentItem,
 } = ingredientsSlice.selectors;
-
-export const { setCurrentItem, revokeCurrentItem } = ingredientsSlice.actions;

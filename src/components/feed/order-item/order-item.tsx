@@ -2,16 +2,14 @@ import { IOrderDetails } from '@/utils/types';
 import styles from './order-item.module.css';
 import { FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components';
 import { OrderIngredients } from '../order-ingredients/order-ingredients';
+import { useMatch } from 'react-router-dom';
 
 interface OrderItemProps {
 	order: IOrderDetails;
-	status: boolean;
 }
 
-export const OrderItem = ({
-	order,
-	status,
-}: OrderItemProps): React.JSX.Element => {
+export const OrderItem = ({ order }: OrderItemProps): React.JSX.Element => {
+	const showStatus = useMatch('profile/orders');
 	return (
 		<div className={styles.main}>
 			<section>
@@ -22,7 +20,7 @@ export const OrderItem = ({
 				/>
 			</section>
 			<p className='text text_type_main-medium'>{order.name}</p>
-			{status && (
+			{showStatus && (
 				<p className='text text_type_main-small'>
 					{order.status == 'done'
 						? 'Выполнен'

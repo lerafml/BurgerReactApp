@@ -1,7 +1,7 @@
 import { combineSlices, configureStore, ThunkDispatch } from '@reduxjs/toolkit';
 import { ingredientsSlice } from './ingredients/reducer';
-import { constructorSlice } from './constructor/reducer';
-import { userSlice } from './user/reducer';
+import { ConstructorActions, constructorSlice } from './constructor/reducer';
+import { UserActions, userSlice } from './user/reducer';
 import {
 	useDispatch as dispatchHook,
 	useSelector as selectorHook,
@@ -15,12 +15,21 @@ import {
 	wsConnect,
 	wsDisconnect,
 } from './feed/actions';
+import {
+	ProfileActions,
+	profileConnect,
+	profileDisconnect,
+	profileOnError,
+	profileOnMessage,
+} from './profile/actions';
+import { profileSlice } from './profile/reducer';
 
 const rootReducer = combineSlices(
 	ingredientsSlice,
 	constructorSlice,
 	userSlice,
-	feedSlice
+	feedSlice,
+	profileSlice
 );
 
 const feedMiddleware = socketMiddleware({
@@ -30,18 +39,29 @@ const feedMiddleware = socketMiddleware({
 	onMessage,
 });
 
+const profileMiddleware = socketMiddleware({
+	connect: profileConnect,
+	disconnect: profileDisconnect,
+	onError: profileOnError,
+	onMessage: profileOnMessage,
+});
+
 export const configStore = (initialState: RootState) => {
 	return configureStore({
 		reducer: rootReducer,
 		middleware: (getDefaultMiddleware) => {
-			return getDefaultMiddleware().concat(feedMiddleware);
+			return getDefaultMiddleware().concat(feedMiddleware, profileMiddleware);
 		},
 		//devTools: process.env.NODE_ENV !== 'production',
 		preloadedState: initialState,
 	});
 };
 
-export type AppActions = FeedActions;
+export type AppActions =
+	| FeedActions
+	| ProfileActions
+	| ConstructorActions
+	| UserActions;
 export type RootState = ReturnType<typeof rootReducer>;
 type AppDispatch = ThunkDispatch<RootState, unknown, AppActions>;
 export const useDispatch = dispatchHook.withTypes<AppDispatch>();

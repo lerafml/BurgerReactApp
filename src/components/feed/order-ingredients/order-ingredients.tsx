@@ -1,8 +1,9 @@
 import { getAllIngredients } from '@/services/ingredients/reducer';
 import { useSelector } from '@/services/store';
-import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './order-ingredients.module.css';
 import { IIngredient } from '@/utils/types';
+import { useMemo } from 'react';
+import { Price } from '../price/price';
 
 interface OrderIngredientsProps {
 	ids: Array<string>;
@@ -15,10 +16,9 @@ export const OrderIngredients = ({
 	const currentIngredients: IIngredient[] = ids
 		.map((id) => ingredients.find((i) => i._id === id))
 		.filter(Boolean) as IIngredient[];
-	const totalPrice = currentIngredients.reduce(
-		(sum, ingr) => sum + ingr.price,
-		0
-	);
+	const totalPrice = useMemo(() => {
+		return currentIngredients.reduce((sum, ingr) => sum + ingr.price, 0);
+	}, [currentIngredients]);
 
 	return (
 		<section>
@@ -35,10 +35,7 @@ export const OrderIngredients = ({
 					</div>
 				))}
 			</div>
-			<p className='text text_type_digits-default'>
-				{totalPrice}
-				<CurrencyIcon type='primary' />
-			</p>
+			<Price price={totalPrice} />
 		</section>
 	);
 };

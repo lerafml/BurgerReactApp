@@ -57,5 +57,9 @@ export const userSlice = createSlice({
 	},
 });
 
+export type UserActions =
+	| ReturnType<typeof setUser>
+	| ReturnType<typeof setIsAuthChecked>;
+
 export const { getUser, getIsAuthChecked } = userSlice.selectors;
 export const { setUser, setIsAuthChecked } = userSlice.actions;

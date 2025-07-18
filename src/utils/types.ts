@@ -77,10 +77,12 @@ export interface IOrderDetails {
 	updatedAt: string;
 	name: string;
 }
-
-export interface IGetFeedData {
+export interface IGetOrderData {
 	success: boolean;
 	orders: IOrderDetails[];
+}
+
+export interface IGetFeedData extends IGetOrderData {
 	total: number;
 	totalToday: number;
 }

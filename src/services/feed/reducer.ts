@@ -1,12 +1,13 @@
 import { IOrderDetails } from '@/utils/types';
 import { createSelector, createSlice } from '@reduxjs/toolkit';
-import { onError, onMessage } from './actions';
+import { loadOrder, onError, onMessage } from './actions';
 
 export interface IFeedState {
 	orders: IOrderDetails[];
 	total: number;
 	totalToday: number;
 	error: string | null;
+	order: IOrderDetails | null;
 }
 
 export const initialState: IFeedState = {
@@ -14,6 +15,7 @@ export const initialState: IFeedState = {
 	total: 0,
 	totalToday: 0,
 	error: null,
+	order: null,
 };
 
 export const feedSlice = createSlice({
@@ -39,6 +41,9 @@ export const feedSlice = createSlice({
 				state.orders = action.payload.orders;
 				state.total = action.payload.total;
 				state.totalToday = action.payload.totalToday;
+			})
+			.addCase(loadOrder.fulfilled, (state, action) => {
+				state.order = action.payload.orders[0];
 			});
 	},
 });

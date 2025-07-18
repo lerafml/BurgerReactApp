@@ -69,7 +69,10 @@ export const socketMiddleware = <A, B>(
 					try {
 						const data = JSON.parse(event.data);
 
-						if (withTokenRefresh && data.message === 'jwt expired') {
+						if (
+							withTokenRefresh &&
+							data.message === 'Invalid or missing token'
+						) {
 							refreshToken()
 								.then((refreshData) => {
 									const wssUrl = new URL(url);

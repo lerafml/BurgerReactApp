@@ -1,0 +1,7 @@
+.wrapper {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	max-height: 90%;
+	overflow-y: scroll;
+}
