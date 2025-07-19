@@ -8,16 +8,13 @@ import {
 	getBun,
 	getConstructorIngredients,
 } from '../../services/constructor/reducer';
-import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
-import { ConstructorIngredient, IIngredient } from '@/utils/types';
+import { useDispatch, useSelector } from '@/services/store';
 
 export const BurgerConstructor = (): React.JSX.Element => {
 	const dispatch = useDispatch();
-	const bun: IIngredient = useSelector(getBun);
-	const ingredients: ConstructorIngredient[] = useSelector(
-		getConstructorIngredients
-	);
+	const bun = useSelector(getBun);
+	const ingredients = useSelector(getConstructorIngredients);
 
 	const [{ isOver }, dropRef] = useDrop({
 		accept: 'ingredient',

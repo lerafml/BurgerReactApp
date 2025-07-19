@@ -9,7 +9,6 @@ import { ForgotPassword } from '../../pages/forgot-password/forgot-password';
 import { ResetPassword } from '../../pages/reset-password/reset-password';
 import IngredientDetails from '@/components/burger-ingredients/ingredient-details/ingredient-details';
 import Modal from '@/components/modal/modal.js';
-import { useDispatch, useSelector } from 'react-redux';
 import { loadIngredients } from '../../services/ingredients/actions';
 import { Preloader } from '@/components/preloader/preloader.js';
 import {
@@ -22,7 +21,9 @@ import { checkUserAuth } from '../../services/user/actions';
 import { OnlyAuth, OnlyUnAuth } from '../protected-route/protected-route';
 import { ProfileEditor } from '../profile-editor/profile-editor';
 import { Orders } from '../orders/order';
-import { IIngredient } from '@/utils/types';
+import { useDispatch, useSelector } from '@/services/store';
+import { Feed } from '@/pages/feed/feed';
+import { OrderInfo } from '../feed/order-info/order-info';
 
 export const App = (): React.JSX.Element => {
 	const location = useLocation();
@@ -30,7 +31,7 @@ export const App = (): React.JSX.Element => {
 	const dispatch = useDispatch();
 	const loading = useSelector(getIngredientsLoading);
 	const error = useSelector(getIngredientsError);
-	const ingredients: IIngredient[] = useSelector(getAllIngredients);
+	const ingredients = useSelector(getAllIngredients);
 	const background = location.state && location.state.backgroundLocation;
 
 	useEffect(() => {
@@ -51,6 +52,22 @@ export const App = (): React.JSX.Element => {
 								element={
 									<Modal name='Детали ингредиента' onClose={() => navigate(-1)}>
 										<IngredientDetails />
+									</Modal>
+								}
+							/>
+							<Route
+								path='/feed/:number'
+								element={
+									<Modal name='' onClose={() => navigate(-1)}>
+										<OrderInfo />
+									</Modal>
+								}
+							/>
+							<Route
+								path='/profile/orders/:number'
+								element={
+									<Modal name='' onClose={() => navigate(-1)}>
+										<OrderInfo />
 									</Modal>
 								}
 							/>
@@ -103,6 +120,25 @@ export const App = (): React.JSX.Element => {
 									}
 								/>
 							</Route>
+							<Route path='/feed' element={<Feed />} />
+							<Route
+								path='/feed/:number'
+								element={
+									<div
+										className={`${styles.details} text text_type_main-medium`}>
+										<OrderInfo />
+									</div>
+								}
+							/>
+							<Route
+								path='/profile/orders/:number'
+								element={
+									<div
+										className={`${styles.details} text text_type_main-medium`}>
+										<OrderInfo />
+									</div>
+								}
+							/>
 						</Route>
 						<Route
 							path='*'

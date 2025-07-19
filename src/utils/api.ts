@@ -1,7 +1,8 @@
 import {
 	IAuthUser,
+	IGetIngredientsData,
+	IGetOrderData,
 	IGetUserData,
-	IIngredient,
 	IMessageData,
 	IOrder,
 	IRefreshTokenData,
@@ -10,6 +11,9 @@ import {
 	IResetPassword,
 } from './types';
 
+const WS_URL = 'wss://norma.nomoreparties.space/orders';
+export const PROFILE_ORDERS_URL = `${WS_URL}?token=${localStorage.getItem('accessToken')?.replace('Bearer ', '')}`;
+export const FEED_URL = `${WS_URL}/all`;
 const BASE_URL = 'https://norma.nomoreparties.space/api';
 const apiConfig = {
 	baseUrl: `${BASE_URL}/ingredients`,
@@ -21,6 +25,7 @@ const apiConfig = {
 	logoutUrl: `${BASE_URL}/auth/logout`,
 	tokenUrl: `${BASE_URL}/auth/token`,
 	authUrl: `${BASE_URL}/auth/user`,
+	getOrderUrl: `${BASE_URL}/orders`,
 	headers: {
 		'Content-Type': 'application/json',
 	},
@@ -34,19 +39,17 @@ const checkReponse = <T>(res: Response): Promise<T> => {
 	return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 };
 
-export const getIngredients = (): Promise<IIngredient[]> => {
+export const getIngredients = (): Promise<IGetIngredientsData> => {
 	return fetch(`${apiConfig.baseUrl}`, {
 		headers: apiConfig.headers,
 	})
-		.then(checkReponse<IIngredient[]>)
+		.then(checkReponse<IGetIngredientsData>)
 		.catch((error) => {
 			return Promise.reject(`Ошибка ${error.message}`);
 		});
 };
 
-export const sendOrder = (ids: {
-	ingredients: Array<string>;
-}): Promise<IOrder> => {
+export const sendOrder = (ids: Array<string>): Promise<IOrder> => {
 	return fetch(`${apiConfig.orderUrl}`, {
 		method: 'POST',
 		headers: apiConfig.headersAuth,
@@ -151,15 +154,11 @@ export const getUser = (): Promise<IGetUserData> => {
 	});
 };
 
-export const updateUser = ({
-	email,
-	password,
-	name,
-}: IRegisterUser): Promise<IGetUserData> => {
+export const updateUser = (data: IRegisterUser): Promise<IGetUserData> => {
 	return fetchWithRefresh<IGetUserData>(`${apiConfig.authUrl}`, {
 		method: 'PATCH',
 		headers: apiConfig.headersAuth,
-		body: JSON.stringify({ email: email, password: password, name: name }),
+		body: JSON.stringify(data),
 	}).catch((error) => {
 		return Promise.reject(`Ошибка ${error.message}`);
 	});
@@ -190,6 +189,15 @@ export const resetPasswordConfirm = ({
 		.catch((error) => {
 			return Promise.reject(`Ошибка ${error.message}`);
 		});
+};
+
+export const getOrder = (number: number): Promise<IGetOrderData> => {
+	return fetchWithRefresh<IGetOrderData>(`${apiConfig.getOrderUrl}/${number}`, {
+		method: 'GET',
+		headers: apiConfig.headersAuth,
+	}).catch((error) => {
+		return Promise.reject(`Ошибка ${error.message}`);
+	});
 };
 
 export const fetchWithRefresh = async <T>(

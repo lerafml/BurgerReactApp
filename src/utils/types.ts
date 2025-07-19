@@ -47,6 +47,11 @@ export interface IGetUserData {
 	user: IUser;
 }
 
+export interface IGetIngredientsData {
+	success: boolean;
+	data: IIngredient[];
+}
+
 export interface IOrder {
 	name: string;
 	order: { number: number };
@@ -61,4 +66,23 @@ export interface IMessageData {
 export interface IResetPassword {
 	password: string;
 	token: string;
+}
+
+export interface IOrderDetails {
+	ingredients: Array<string>;
+	_id: string;
+	status: 'done' | 'created' | 'pending';
+	number: number;
+	createdAt: string;
+	updatedAt: string;
+	name: string;
+}
+export interface IGetOrderData {
+	success: boolean;
+	orders: IOrderDetails[];
+}
+
+export interface IGetFeedData extends IGetOrderData {
+	total: number;
+	totalToday: number;
 }

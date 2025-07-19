@@ -1,0 +1,61 @@
+.images {
+	display: flex;
+	flex-direction: row;
+	width: 200px;
+}
+
+.gradient {
+	padding: 2px;
+	background: linear-gradient(to right, #801ab2, #4c4cff);
+	border-radius: 50%;
+}
+
+.span {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	width: 70px;
+	height: 70px;
+	overflow: hidden;
+	background-color: var(--background-alt);
+	border-radius: 50%;
+}
+
+.span img {
+	width: 100px;
+}
+
+.images div {
+	margin-left: -20px;
+}
+
+.images div:first-child {
+	z-index: 6;
+	margin-left: 0;
+}
+
+.images div:nth-child(2) {
+	z-index: 5;
+}
+
+.images div:nth-child(3) {
+	z-index: 4;
+}
+
+.images div:nth-child(4) {
+	z-index: 3;
+}
+
+.images div:nth-child(5) {
+	z-index: 2;
+}
+
+.images div:nth-child(6) {
+	z-index: 1;
+}
+
+.extra {
+	position: absolute;
+	top: 20px;
+	opacity: 1 !important;
+}

@@ -4,12 +4,11 @@ import IngredientImage from '@/components/burger-ingredients/ingredient-image/in
 import ListItem from '@components/burger-ingredients/ingredient-details/list-item/list-item';
 import { useParams } from 'react-router-dom';
 import { getAllIngredients } from '../../../services/ingredients/reducer';
-import { useSelector } from 'react-redux';
-import { IIngredient } from '@/utils/types';
+import { useSelector } from '@/services/store';
 
 const IngredientDetails = (): React.JSX.Element => {
 	const params = useParams();
-	const ingredients: IIngredient[] = useSelector(getAllIngredients);
+	const ingredients = useSelector(getAllIngredients);
 	const item = ingredients.filter((ingr) => ingr._id === params.id)[0];
 
 	return (

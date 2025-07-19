@@ -1,13 +1,12 @@
 import styles from './burger-section.module.css';
 import Ingredient from '@/components/burger-ingredients/ingredient/ingredient';
-import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentItem } from '../../../services/ingredients/reducer';
 import {
 	getBun,
 	getConstructorIngredients,
 } from '../../../services/constructor/reducer';
 import { Link, useLocation } from 'react-router-dom';
-import { ConstructorIngredient, IIngredient } from '@/utils/types';
+import { IIngredient } from '@/utils/types';
+import { useSelector } from '@/services/store';
 
 interface BurgerSectionProps {
 	name: string;
@@ -19,11 +18,8 @@ const BurgerSection = ({
 	ingredients,
 }: BurgerSectionProps): React.JSX.Element => {
 	const location = useLocation();
-	const dispatch = useDispatch();
-	const constructorBun: IIngredient = useSelector(getBun);
-	const constructorIngredients: ConstructorIngredient[] = useSelector(
-		getConstructorIngredients
-	);
+	const constructorBun = useSelector(getBun);
+	const constructorIngredients = useSelector(getConstructorIngredients);
 	const counters: { [key: string]: number } = {};
 
 	if (typeof ingredients === 'undefined') return <></>;
@@ -59,11 +55,7 @@ const BurgerSection = ({
 						key={item._id}
 						to={`/ingredients/${item._id}`}
 						state={{ backgroundLocation: location }}>
-						<Ingredient
-							item={item}
-							count={counters[item._id]}
-							onClick={() => dispatch(setCurrentItem(item))}
-						/>
+						<Ingredient item={item} count={counters[item._id]} />
 					</Link>
 				);
 			})}

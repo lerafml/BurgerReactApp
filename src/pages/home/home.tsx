@@ -4,7 +4,7 @@ import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredi
 import { BurgerConstructor } from '@components/burger-contructor/burger-constructor.jsx';
 import Modal from '@components/modal/modal.jsx';
 import OrderDetails from '@components/burger-contructor/order-details/order-details';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '@/services/store';
 import {
 	exitOrder,
 	getOrder,
@@ -15,7 +15,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { Preloader } from '@components/preloader/preloader.jsx';
 
 export const Home = (): React.JSX.Element => {
-	const order: number = useSelector(getOrder);
+	const order = useSelector(getOrder);
 	const isOrderPending: boolean = useSelector(getOrderPending);
 	const dispatch = useDispatch();
 
