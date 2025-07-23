@@ -10,13 +10,17 @@ import styles from './order.module.css';
 export const Orders = (): React.JSX.Element => {
 	const dispatch = useDispatch();
 	const location = useLocation();
-	const orders = useSelector(getProfileOrders);
+	const orders = useSelector(getProfileOrders) ?? [];
 	const sortedOrders = [...orders].sort((a, b) => {
 		return +new Date(b.createdAt).getTime() - +new Date(a.createdAt).getTime();
 	});
 
 	useEffect(() => {
-		dispatch(profileConnect(PROFILE_ORDERS_URL));
+		dispatch(
+			profileConnect(
+				`${PROFILE_ORDERS_URL}?token=${localStorage.getItem('accessToken')?.replace('Bearer ', '')}`
+			)
+		);
 		return () => {
 			dispatch(profileDisconnect());
 		};

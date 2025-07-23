@@ -1,4 +1,9 @@
-import { combineSlices, configureStore, ThunkDispatch } from '@reduxjs/toolkit';
+import {
+	combineSlices,
+	configureStore,
+	ThunkAction,
+	ThunkDispatch,
+} from '@reduxjs/toolkit';
 import { ingredientsSlice } from './ingredients/reducer';
 import { ConstructorActions, constructorSlice } from './constructor/reducer';
 import { UserActions, userSlice } from './user/reducer';
@@ -63,6 +68,12 @@ export type AppActions =
 	| ConstructorActions
 	| UserActions;
 export type RootState = ReturnType<typeof rootReducer>;
+export type AppThunk<ReturnType = void> = ThunkAction<
+	ReturnType,
+	RootState,
+	unknown,
+	AppActions
+>;
 type AppDispatch = ThunkDispatch<RootState, unknown, AppActions>;
 export const useDispatch = dispatchHook.withTypes<AppDispatch>();
 export const useSelector = selectorHook.withTypes<RootState>();
