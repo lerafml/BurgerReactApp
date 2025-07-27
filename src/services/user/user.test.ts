@@ -1,4 +1,4 @@
-import { expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { userSlice, initialState, setUser, setIsAuthChecked } from './reducer';
 import { authUser, logout, register, updateUserData } from './actions';
 import { IGetUserData, IRegisterData } from '@/utils/types';

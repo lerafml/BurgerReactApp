@@ -1,4 +1,4 @@
-import { expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { profileSlice, initialState } from './reducer';
 import { profileOnError, profileOnMessage } from './actions';
 import { IGetFeedData } from '@/utils/types';

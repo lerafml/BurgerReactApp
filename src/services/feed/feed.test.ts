@@ -1,4 +1,4 @@
-import { expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { feedSlice, initialState } from './reducer';
 import { loadOrder, onError, onMessage } from './actions';
 import { IGetFeedData, IGetOrderData } from '@/utils/types';
