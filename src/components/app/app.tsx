@@ -133,10 +133,14 @@ export const App = (): React.JSX.Element => {
 							<Route
 								path='/profile/orders/:number'
 								element={
-									<div
-										className={`${styles.details} text text_type_main-medium`}>
-										<OrderInfo />
-									</div>
+									<OnlyAuth
+										component={
+											<div
+												className={`${styles.details} text text_type_main-medium`}>
+												<OrderInfo />
+											</div>
+										}
+									/>
 								}
 							/>
 						</Route>

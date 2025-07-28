@@ -43,10 +43,14 @@ const Modal = ({ name, children, onClose }: ModalProps): React.JSX.Element => {
 					onClose();
 				}
 			}}>
-			<div className={styles.modal} role='button' tabIndex={0}>
+			<div
+				data-test='modal'
+				className={styles.modal}
+				role='button'
+				tabIndex={0}>
 				<section className={styles.header}>
 					<h1 className='text text_type_main-large'>{name}</h1>
-					<span className={styles.icon}>
+					<span data-test='closeBtn' className={styles.icon}>
 						<CloseIcon type='primary' onClick={onClose} />
 					</span>
 				</section>

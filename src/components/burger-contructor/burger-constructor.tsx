@@ -28,9 +28,12 @@ export const BurgerConstructor = (): React.JSX.Element => {
 
 	const borderStyle = isOver ? 'dashed' : '';
 	return (
-		<section className={`${styles.burger_constructor} `} ref={dropRef}>
+		<section
+			data-test='constructor'
+			className={`${styles.burger_constructor} `}
+			ref={dropRef}>
 			{bun ? (
-				<div>
+				<div data-test='constructor-bun-1'>
 					<ConstructorElement
 						isLocked={true}
 						text={`${bun.name} (верх)`}
@@ -58,7 +61,7 @@ export const BurgerConstructor = (): React.JSX.Element => {
 				</div>
 			)}
 			{bun ? (
-				<div>
+				<div data-test='constructor-bun-2'>
 					<ConstructorElement
 						isLocked={true}
 						text={`${bun.name} (низ)`}

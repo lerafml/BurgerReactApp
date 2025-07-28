@@ -11,11 +11,10 @@ import {
 	IResetPassword,
 } from './types';
 
-const WS_URL = 'wss://norma.nomoreparties.space/orders';
-export const PROFILE_ORDERS_URL = `${WS_URL}?token=${localStorage.getItem('accessToken')?.replace('Bearer ', '')}`;
-export const FEED_URL = `${WS_URL}/all`;
-const BASE_URL = 'https://norma.nomoreparties.space/api';
-const apiConfig = {
+export const PROFILE_ORDERS_URL = 'wss://norma.nomoreparties.space/orders';
+export const FEED_URL = `${PROFILE_ORDERS_URL}/all`;
+export const BASE_URL = 'https://norma.nomoreparties.space/api';
+export const apiConfig = {
 	baseUrl: `${BASE_URL}/ingredients`,
 	orderUrl: `${BASE_URL}/orders`,
 	pswResetUrl: `${BASE_URL}/password-reset`,

@@ -14,6 +14,7 @@ const ModalOverlay = ({
 	return (
 		<div
 			id='overlay'
+			data-test='modalOverlay'
 			className={styles.background}
 			onClick={onClick}
 			role='button'

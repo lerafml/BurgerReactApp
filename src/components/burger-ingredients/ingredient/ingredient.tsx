@@ -19,7 +19,7 @@ const Ingredient = ({ item, count }: IngredientProps): React.JSX.Element => {
 	});
 
 	return (
-		<section ref={ref} className={styles.ingredient}>
+		<section data-test='ingredient' ref={ref} className={styles.ingredient}>
 			{count > 0 && <Counter count={count} size='default' extraClass='m-1' />}
 			<IngredientImage image={item.image} name={item.name} />
 			<p className={`${styles.price} text text_type_digits-default mt-1 mb-1`}>

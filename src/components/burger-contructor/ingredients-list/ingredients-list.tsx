@@ -10,7 +10,7 @@ const IngredientsList = ({
 	ingredients,
 }: IngredientsListProps): React.JSX.Element => {
 	return (
-		<ul className={styles.list}>
+		<ul data-test='constructorIngredients' className={styles.list}>
 			{ingredients.map((item, index) => {
 				return <ListItem item={item} index={index} key={item.key} />;
 			})}

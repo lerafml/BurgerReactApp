@@ -1,4 +1,10 @@
-import { combineSlices, configureStore, ThunkDispatch } from '@reduxjs/toolkit';
+import {
+	combineSlices,
+	configureStore,
+	createSelector,
+	ThunkAction,
+	ThunkDispatch,
+} from '@reduxjs/toolkit';
 import { ingredientsSlice } from './ingredients/reducer';
 import { ConstructorActions, constructorSlice } from './constructor/reducer';
 import { UserActions, userSlice } from './user/reducer';
@@ -46,14 +52,13 @@ const profileMiddleware = socketMiddleware({
 	onMessage: profileOnMessage,
 });
 
-export const configStore = (initialState: RootState) => {
+export const configStore = () => {
 	return configureStore({
 		reducer: rootReducer,
 		middleware: (getDefaultMiddleware) => {
 			return getDefaultMiddleware().concat(feedMiddleware, profileMiddleware);
 		},
 		//devTools: process.env.NODE_ENV !== 'production',
-		preloadedState: initialState,
 	});
 };
 
@@ -63,6 +68,13 @@ export type AppActions =
 	| ConstructorActions
 	| UserActions;
 export type RootState = ReturnType<typeof rootReducer>;
+export type AppThunk<ReturnType = void> = ThunkAction<
+	ReturnType,
+	RootState,
+	unknown,
+	AppActions
+>;
 type AppDispatch = ThunkDispatch<RootState, unknown, AppActions>;
 export const useDispatch = dispatchHook.withTypes<AppDispatch>();
 export const useSelector = selectorHook.withTypes<RootState>();
+export const useCreateSelector = createSelector.withTypes<RootState>();
